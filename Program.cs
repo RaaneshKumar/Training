@@ -1,8 +1,15 @@
-﻿Console.Write ("Enter a decimal value: ");
+﻿// Convert decimal to hexadecimal and binary
+
+// To Hexadecimal
+
+Console.Write ("Enter a decimal value: ");
 string userinput = Console.ReadLine ();
 int input = int.Parse (userinput);
 string hexvalue = input.ToString ("X");
 Console.WriteLine (hexvalue);
+
+// To binary 
+
 string binarynumber = "";
 while (input > 0) {
    int remainder = input % 2;
