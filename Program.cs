@@ -1,14 +1,9 @@
 ﻿// Check whether the given number is a Prime Number or not
 
 Console.Write ("Enter a number: ");
-string input = Console.ReadLine ();
-int given_number = int.Parse (input);
-if (given_number < 0) {
-   Console.WriteLine ("Negative Numbers cannot be prime.");
-}
-if (given_number is 0 or 1) {
-   Console.WriteLine ("{0} is neither prime nor composite.", given_number);
-}
+int given_number = int.Parse (Console.ReadLine ());
+if (given_number < 0) Console.WriteLine ("Negative Numbers cannot be prime.");
+if (given_number is 0 or 1) Console.WriteLine ("{0} is neither prime nor composite.", given_number);
 if (given_number > 2) {
    for (int i = 2; i < given_number; i++) {
       int result = given_number % i;
@@ -21,6 +16,4 @@ if (given_number > 2) {
       }
    }
 }
-if (given_number == 2) {
-   Console.WriteLine ("2 is a prime number");
-}
+if (given_number == 2) Console.WriteLine("2 is a prime number");
