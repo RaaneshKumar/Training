@@ -4,13 +4,10 @@
 int first_number = 0;
 int second_number = 1;
 Console.Write ("Write the number of elements required for this fibonacci series: ");
-string input = Console.ReadLine ();
-Console.WriteLine (first_number);
-Console.WriteLine (second_number);
-int n = int.Parse (input);
+int n = int.Parse (Console.ReadLine ());
+Console.WriteLine (first_number + "\n" + second_number);
 for (int i = 0; i < n; i++) {
    int next_number = first_number + second_number;
    Console.WriteLine (next_number);
-   first_number = second_number;
-   second_number = next_number;
+   first_number = second_number; second_number = next_number;
 }
