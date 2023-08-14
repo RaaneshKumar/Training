@@ -3,8 +3,7 @@
 // To Hexadecimal
 
 Console.Write ("Enter a decimal value: ");
-string userinput = Console.ReadLine ();
-int input = int.Parse (userinput);
+int input = int.Parse (Console.ReadLine ());
 string hexvalue = input.ToString ("X");
 Console.WriteLine (hexvalue);
 
@@ -16,6 +15,4 @@ while (input > 0) {
    binarynumber = Convert.ToString (remainder) + binarynumber;
    input = input / 2;
 }
-foreach (var item in binarynumber) {
-   Console.Write (item);
-}
+foreach (var item in binarynumber) Console.Write (item);
