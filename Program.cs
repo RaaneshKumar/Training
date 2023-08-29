@@ -1,8 +1,7 @@
 ﻿// Fibonacci series
 // Given an input eg:n=10, print fibonacci series for f(10)
 
-int firstNumber = 0;
-int secondNumber = 1;
+int firstNumber = 0; int secondNumber = 1;
 Console.Write ("Write the number of elements required for this fibonacci series: ");
 if (int.TryParse (Console.ReadLine (), out int n)) {
    Console.WriteLine (firstNumber + "\n" + secondNumber);
@@ -12,4 +11,3 @@ if (int.TryParse (Console.ReadLine (), out int n)) {
       (firstNumber, secondNumber) = (secondNumber, nextNumber);
    }
 } else Console.WriteLine ("Invalid input.");
-
