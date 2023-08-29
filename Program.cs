@@ -1,13 +1,15 @@
 ﻿// Fibonacci series
 // Given an input eg:n=10, print fibonacci series for f(10)
 
-int first_number = 0;
-int second_number = 1;
+int firstNumber = 0;
+int secondNumber = 1;
 Console.Write ("Write the number of elements required for this fibonacci series: ");
-int n = int.Parse (Console.ReadLine ());
-Console.WriteLine (first_number + "\n" + second_number);
-for (int i = 0; i < n; i++) {
-   int next_number = first_number + second_number;
-   Console.WriteLine (next_number);
-   first_number = second_number; second_number = next_number;
-}
+if (int.TryParse (Console.ReadLine (), out int n)) {
+   Console.WriteLine (firstNumber + "\n" + secondNumber);
+   for (int i = 0; i < n; i++) {
+      int nextNumber = firstNumber + secondNumber;
+      Console.WriteLine (nextNumber);
+      (firstNumber, secondNumber) = (secondNumber, nextNumber);
+   }
+} else Console.WriteLine ("Invalid input.");
+
