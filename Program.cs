@@ -3,12 +3,12 @@
 //Do not do any string manipulations like reversing a string and converting it to an integer.
 
 Console.Write ("Enter a number: ");
-int input = int.Parse (Console.ReadLine ());
-int reverse = 0; int input1 = input;
-while (input1 > 0) {
-   reverse = (reverse * 10) + (input1 % 10);
-   input1 /= 10;
-}
-Console.WriteLine ($"Reversed number = {reverse}");
-if (input == reverse) Console.WriteLine ("Given number is a palindrome.");
-else Console.WriteLine ("Given number is not a palindrome");
+if (int.TryParse (Console.ReadLine (), out int input)) {
+   int reverse = 0; int input1 = input;
+   while (input1 > 0) {
+      reverse = (reverse * 10) + (input1 % 10);
+      input1 /= 10;
+   }
+   Console.WriteLine ($"Reversed number = {reverse}");
+   Console.WriteLine ((input == reverse) ? "Given number is a palindrome." : "Given number is not a palindrome");
+} else Console.WriteLine ("Invalid Input.");
