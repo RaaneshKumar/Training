@@ -2,7 +2,8 @@
 
 Console.Write ("Enter a number to print its factorial: ");
 if (int.TryParse (Console.ReadLine (), out int input)) {
-   Console.WriteLine ($"Factorial of {input} is {Factorial (input)}.");
+   if (input < 0) Console.WriteLine("Factorial can be printed only for non-negative integers.");
+   else Console.WriteLine ($"Factorial of {input} is {Factorial (input)}.");
 } else Console.WriteLine ("Invalid Input.");
 
 int Factorial (int number) {
