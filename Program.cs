@@ -7,7 +7,7 @@ if (int.TryParse (Console.ReadLine (), out int input)) {
 
 int Factorial (int number) {
    int factorial = 1;
-   for (int i = 1; i <= input; i++) {
+   for (int i = 1; i <= number; i++) {
       factorial *= i;
    }
    return factorial;
