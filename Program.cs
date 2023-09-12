@@ -3,34 +3,30 @@
 
 Console.Write ("Enter a decimal value: ");
 if (int.TryParse (Console.ReadLine (), out int input)) {
-   if (input == 0) Console.WriteLine ("Hexadecimal: 0 \nBinary: 0");
-   else {
-      Console.WriteLine ($"Hexadecimal: {hexadecimal ()}");
-      Console.WriteLine ($"Binary: {binary ()}");
-   }
-}else Console.WriteLine ("Invalid input");
+   Console.WriteLine ((input == 0) ? "Hexadecimal: 0 \nBinary: 0" : $"Hexadecimal: {Hexadecimal ()} \nBinary: {Binary ()}");
+} else Console.WriteLine ("Invalid input");
 
 //To hexadecimal
-string hexadecimal () {
+string Hexadecimal () {
    int input1 = input;
-   string[] hexdigits = { "A", "B", "C", "D", "E", "F" };
-   string hexvalue = "";
+   string[] hexDigits = { "A", "B", "C", "D", "E", "F" };
+   string hexValue = "";
    while (input1 > 0) {
-      if (input1 <= 9) hexvalue = (input1 % 16) + hexvalue;
-      else hexvalue = hexdigits[(input1%16) - 10] + hexvalue;
+      if (input1 <= 9) hexValue = (input1 % 16) + hexValue;
+      else hexValue = hexDigits[(input1 % 16) - 10] + hexValue;
       input1 /= 16;
    }
-   return hexvalue;
+   return hexValue;
 }
 
 //To binary
-string binary () {
+string Binary () {
    int input1 = input;
-   string binarynumber = "";
-   if (input == 0) binarynumber = "0";
+   string binaryNumber = "";
+   if (input == 0) binaryNumber = "0";
    while (input1 > 0) {
-      binarynumber = (input1 % 2) + binarynumber;
+      binaryNumber = (input1 % 2) + binaryNumber;
       input1 /= 2;
    }
-   return binarynumber;
-}
+   return binaryNumber;
+} 
