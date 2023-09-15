@@ -1,7 +1,7 @@
 ﻿// To check whether the given input is a palindrome or not
 
 Console.Write ("Enter something to check whether it is a palindrome or not: ");
-string userinput = Console.ReadLine (); string trimmedInput = userinput.Replace (" ", "").ToLower ();
+string userInput = Console.ReadLine (), trimmedInput = userInput.Replace (" ", "").ToLower ();
 int length = trimmedInput.Length;
 Console.WriteLine ($"The given input is {(IsPalindrome () ? "" : "not ")}a palindrome");
 
