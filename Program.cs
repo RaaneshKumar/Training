@@ -3,7 +3,7 @@
 Console.Write ("Enter something to check whether it is a palindrome or not: ");
 string userInput = Console.ReadLine (), trimmedInput = userInput.Replace (" ", "").ToLower ();
 int length = trimmedInput.Length;
-Console.WriteLine ($"The given input is {(IsPalindrome () ? "" : "not ")}a palindrome");
+Console.WriteLine ((length > 0) ? $"The given input is {(IsPalindrome () ? "" : "not ")}a palindrome" : "Input cannot be empty");
 
 bool IsPalindrome () {
    for (int i = 0; i <= length / 2; i++)
