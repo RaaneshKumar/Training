@@ -17,8 +17,5 @@ if (input) {
       string sorted = new (letters);
       if (eachWord == sorted) abecedarian.Add (sorted);
    }
-   if (abecedarian.Count > 0) {
-      string result = abecedarian.OrderByDescending (x => x.Length).First ();
-      Console.WriteLine ($"The longest abecedarian word is {result}");
-   } else Console.WriteLine ("No abecedarian words.");
+   Console.WriteLine (abecedarian.Count > 0 ? abecedarian.MaxBy (x => x.Length) : "No abecedarian words.");
 } else Console.WriteLine ("Invalid input.");
