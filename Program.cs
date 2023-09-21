@@ -10,10 +10,12 @@ else {
 }
 
 bool IsPrime (int number) {
-   for (int i = 1; i <= Math.Sqrt (number);) {
-      i++;
-      int remainder = number % i;
-      if (remainder == 0) return false;
+   bool primeCheck = true;
+   for (int i = 2; i <= Math.Sqrt (number); i++) {
+      if (number % i == 0) {
+         primeCheck = false;
+         break;
+      }
    }
-   return true;
+   return primeCheck;
 }
