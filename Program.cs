@@ -7,14 +7,16 @@ The password must contain atleast one uppercase and lowercase letters. */
 using System.Text;
 
 Console.WriteLine ("Enter your password: ");
+
 string password = Console.ReadLine ();
 string specialCharacter = "!@#$%^&*()-+";
+
 if (password.Length >= 6) {
-   StringBuilder weakReason = new ("Your password must contain atleast ");
-   if (!password.Any (char.IsDigit)) weakReason.Append ("one digit, ");
-   if (!password.Any (char.IsUpper)) weakReason.Append ("one uppercase letter, ");
-   if (!password.Any (char.IsLower)) weakReason.Append ("one lowercase letter, ");
-   if (!password.Any (x => specialCharacter.Contains (x))) weakReason.Append ("one special character !@#$%^&*()-+");
-   if (weakReason.ToString () == "Your password must contain atleast ") Console.WriteLine ("Strong Password.");
-   else Console.WriteLine (weakReason);
+   var weakReason = new StringBuilder ("Your password must contain atleast ");
+   bool isStrong = true;
+   if (!password.Any (char.IsDigit)) { isStrong = false; weakReason.Append ("one digit, "); }
+   if (!password.Any (char.IsUpper)) { isStrong = false; weakReason.Append ("one uppercase letter, "); }
+   if (!password.Any (char.IsLower)) { isStrong = false; weakReason.Append ("one lowercase letter, "); }
+   if (!password.Any (specialCharacter.Contains)) { isStrong = false; weakReason.Append ($"one special character {specialCharacter}"); }
+   Console.WriteLine (isStrong ? "Strong Password." : weakReason);
 } else Console.WriteLine ("Your password must contain atleast six letters.");
