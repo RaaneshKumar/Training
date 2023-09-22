@@ -6,14 +6,13 @@
 // Program to display the individual digits of a given number.
 // User enters a number and its individual digits are displayed seperately as integral part and factorial part.
 // ---------------------------------------------------------------------------------------
-using static System.Console;
+
 namespace Training {
    #region class Program ------------------------------------------------------------------------
    /// <summary>Display individual digits</summary>
    internal class Program {
       #region Method ----------------------------------------------
       /// <summary>This method splits the integral and fractional parts of the given number and prints the individual digits of each part</summary>
-      /// <param name="args"></param>
       static void Main () {
          Console.Write ("Enter a number: ");
          if (!double.TryParse (Console.ReadLine (), out double input)) Console.WriteLine ("Invalid Input.");
