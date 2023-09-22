@@ -3,9 +3,8 @@
 // Copyright (c) Metamation India.                                                
 // ---------------------------------------------------------------------------
 // Program.cs                                                                     
-// Program to swap indices from predefined array.
-// User enters two indices to swap and new array with swapped elements is displayed. 
-// Swapped elements and their indices are displayed in Green Foreground Color.
+// Program to check a given number is armstrong or to print nth Armstrong number based on the user input.
+// User either provides input in the command prompt or in the appliation to get nth armstrong number or to check whether the number is armstrong respectively. 
 // ---------------------------------------------------------------------------------------
 
 namespace Training {
