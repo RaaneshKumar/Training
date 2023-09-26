@@ -8,7 +8,7 @@ using System.Text;
 
 Console.WriteLine ("Enter your password: ");
 
-string password = Console.ReadLine ();
+string password = Console.ReadLine () ?? "";
 string specialCharacter = "!@#$%^&*()-+";
 
 if (password.Length >= 6) {
