@@ -9,35 +9,33 @@
 
 namespace Training {
    #region class Program ------------------------------------------------------------------------
-   /// <summary> Armstrong Number </summary>
+   /// <summary>Armstrong Number</summary>
    internal class Program {
       #region Method ----------------------------------------------
       /// <summary>This method prints nth armstrong number when getting input from the command prompt and checks whether it is an armstrong number while executed in the file</summary>
       /// <param name="args"></param>
       static void Main (string[] args) {
-         if (args.Length > 0) {
-            if (!int.TryParse (args[0], out int input)) Console.WriteLine ("Invalid Input.");
-            else Console.WriteLine (NthArmstrong (input));
-         } else {
-            Console.Write ("Enter a number to check whether it is an armstrong number or not: ");
-            if (!int.TryParse (Console.ReadLine (), out int input)) Console.WriteLine ("Invlaid Input.");
-            else Console.WriteLine ($"{input} is{(ArmstrongCheck (input) ? "" : " not")} an armstrong number.");
-         }
+         bool isCommandLineArg = args.Length > 0;
+         Console.Write (isCommandLineArg ? "" : "Enter a number to check whether it is an armstrong number or not: ");
+         if (!int.TryParse (isCommandLineArg ? args[0] : Console.ReadLine (), out int input)) Console.WriteLine ("Invalid Input.");
+         else Console.WriteLine (isCommandLineArg ? NthArmstrong (input) : $"{input} is{(isArmstrongNumber (input) ? "" : " not")} an armstrong number.");
       }
-      /// <summary> This method gives the nth armstrong number where n is the input provide by the user </summary>
+
+      /// <summary>This method gives the nth armstrong number where n is the input provide by the user</summary>
       /// <param name="input"></param>
-      /// <returns> Returns the nth Armstrong number itself </returns>
+      /// <returns>Returns the nth Armstrong number itself</returns>
       static int NthArmstrong (int input) {
          int count = 0;
          for (int i = 1; ; i++) {
-            if (ArmstrongCheck (i)) count++;
+            if (isArmstrongNumber (i)) count++;
             if (count == input) return i;
          }
       }
+
       /// <summary>This method checks whether the given input is armstrong or not</summary>
       /// <param name="input"></param>
       /// <returns>Returns true when it is an armstrong number and false when it is not</returns>
-      static bool ArmstrongCheck (int input) {
+      static bool isArmstrongNumber (int input) {
          int inputCopy = input;
          double sum = 0;
          int length = input.ToString ().Length;
