@@ -18,17 +18,14 @@ namespace Training {
          if (!double.TryParse (Console.ReadLine (), out double input)) Console.WriteLine ("Invalid Input.");
          else {
             string[] parts = input.ToString ().Split ('.');
-            Console.WriteLine ($"Integral part\t: {Digits (parts[0])} {(parts.Length == 1 ? " " : $"\nFactorial Part\t: {Digits (parts[1])}")}");
+            Console.WriteLine ($"Integral part\t: {Digits (parts[0])} {(parts.Length == 1 ? "" : $"\nFactorial Part\t: {Digits (parts[1])}")}");
          }
       }
-      /// <summary>This method gives the individual digits of a given part</summary>
+
+      /// <summary>This method adds space between the digits and converts it to a string</summary>
       /// <param name="part"></param>
-      /// <returns>Returns the individual digits of the part as a string</returns>
-      static string Digits (string part) {
-         List<char> digits = part.ToList ();
-         string final = string.Join (" ", digits);
-         return final;
-      }
+      /// <returns>Returns the individual digits with a space between them as a string</returns>
+      static string Digits (string part) => string.Join (" ", part.ToCharArray ());
       #endregion
    }
    #endregion
