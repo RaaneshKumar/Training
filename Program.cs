@@ -12,13 +12,13 @@ namespace Training {
    /// <summary>Armstrong Number</summary>
    internal class Program {
       #region Method ----------------------------------------------
-      /// <summary>This method prints nth armstrong number when getting input from the command prompt and checks whether it is an armstrong number while executed in the file</summary>
+      /// <summary>Displays nth armstrong number when input is from command prompt and displays if input is armstrong while executed in the file</summary>
       /// <param name="args"></param>
       static void Main (string[] args) {
          bool isCommandLineArg = args.Length > 0;
          Console.Write (isCommandLineArg ? "" : "Enter a number to check whether it is an armstrong number or not: ");
          if (!int.TryParse (isCommandLineArg ? args[0] : Console.ReadLine (), out int input)) Console.WriteLine ("Invalid Input.");
-         else Console.WriteLine (isCommandLineArg ? NthArmstrong (input) : $"{input} is{(isArmstrongNumber (input) ? "" : " not")} an armstrong number.");
+         else Console.WriteLine (isCommandLineArg ? NthArmstrong (input) : $"{input} is{(IsArmstrongNumber (input) ? "" : " not")} an armstrong number.");
       }
 
       /// <summary>This method gives the nth armstrong number where n is the input provide by the user</summary>
@@ -27,7 +27,7 @@ namespace Training {
       static int NthArmstrong (int input) {
          int count = 0;
          for (int i = 1; ; i++) {
-            if (isArmstrongNumber (i)) count++;
+            if (IsArmstrongNumber (i)) count++;
             if (count == input) return i;
          }
       }
@@ -35,7 +35,7 @@ namespace Training {
       /// <summary>This method checks whether the given input is armstrong or not</summary>
       /// <param name="input"></param>
       /// <returns>Returns true when it is an armstrong number and false when it is not</returns>
-      static bool isArmstrongNumber (int input) {
+      static bool IsArmstrongNumber (int input) {
          int inputCopy = input;
          double sum = 0;
          int length = input.ToString ().Length;
