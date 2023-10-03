@@ -15,33 +15,36 @@ namespace Training {
       #region Method ----------------------------------------------
       /// <summary>This method prints a series of numbers based on the count given by the user and displays the updated series after swapping the user asked indices</summary>
       static void Main () {
-         Console.WriteLine ("Enter the count (2-10) of random numbers to be displayed: ");
-         int count = ValidInputCheck ();
-         if (count < 2) Console.WriteLine ("You atleast need two numbers to swap indices.");
-         else {
-            int[] numberSeries = new int[count];
-            for (int i = 0; i < count; i++) {
-               Random random = new ();
-               numberSeries[i] = random.Next (1, 10);
-            }
-            foreach (int number in numberSeries) Console.Write (number + " ");
-
-            Console.WriteLine ("\nEnter the indices to be swapped: \nFirst Index: ");
-            try {
-               int firstIndex = ValidInputCheck ();
-               Console.WriteLine ("Second Index: ");
-               int secondIndex = ValidInputCheck ();
-               SwapIndices (numberSeries, firstIndex, secondIndex);
-               foreach (int number in numberSeries) Console.Write (number + " ");
-            } catch { Console.WriteLine ("One or two of the given indices were out of range."); }
+         Console.Write ("Enter the count (2-10) of random numbers to be displayed: ");
+         int count = GetValidNumber ();
+         if (count < 2 || count > 10) {
+            Console.Write ("Count must be between 2 to 10.");
+            return;
          }
+         int[] numberSeries = new int[count];
+         for (int i = 0; i < count; i++) { //Creates a random number series of given count.
+            Random random = new ();
+            numberSeries[i] = random.Next (1, 10);
+         }
+         Console.Write ("Before Swapping: ");
+         foreach (int number in numberSeries) Console.Write (number + " ");
+
+         Console.Write ("\nEnter the indices to be swapped: \nFirst Index: ");
+         try {
+            int firstIndex = GetValidNumber ();
+            Console.Write ("Second Index: ");
+            int secondIndex = GetValidNumber ();
+            SwapIndices (numberSeries, firstIndex, secondIndex);
+            Console.Write ("After Swapping: ");
+            foreach (int number in numberSeries) Console.Write (number + " ");
+         } catch (IndexOutOfRangeException) { Console.Write ("One or two of the given indices were out of range."); }
       }
 
       /// <summary>Checks for valid input and converts it to int if valid</summary>
       /// <returns>Returns an the user input as int if valid</returns>
-      static int ValidInputCheck () {
+      static int GetValidNumber () {
          for (int i = 0; ; i++) {
-            if (!int.TryParse (Console.ReadLine (), out int a)) Console.WriteLine ("Invalid Input.");
+            if (!int.TryParse (Console.ReadLine (), out int a)) Console.Write ("Invalid Input.");
             else return a;
          }
       }
