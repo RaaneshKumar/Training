@@ -15,7 +15,7 @@ namespace Training {
       /// <summary>This method gets the numbers from the user and displays the swapped numbers</summary>
       static void Main () {
          Console.WriteLine ("Enter two numbers to be swapped: ");
-         (double firstNumber, double secondNumber) = (ValidInputCheck (), ValidInputCheck ());
+         (double firstNumber, double secondNumber) = (GetValidNumber (), GetValidNumber ());
          var swappedNumbers = Swap (firstNumber, secondNumber);
          Console.WriteLine ($"Before Swapping\t: a = {firstNumber}, b = {secondNumber}\nAfter swapping\t: a = {swappedNumbers.Item1}, b = {swappedNumbers.Item2}");
 
@@ -29,7 +29,7 @@ namespace Training {
 
       /// <summary>This method checks for valid input and converts it to a double if valid</summary>
       /// <returns>Returns a double if input is valid</returns>
-      static double ValidInputCheck () {
+      static double GetValidNumber () {
          for (int i = 1; ; i++) {
             if (!double.TryParse (Console.ReadLine (), out double b)) Console.WriteLine ("Invalid Input.");
             else return b;
