@@ -13,17 +13,23 @@ namespace Training {
       #region Method ----------------------------------------------
       /// <summary>This method gets valid user input and displays the sorted and swapped array</summary>
       static void Main () {
-         Console.Write ("Enter the characters to be sorted (as string): ");
-         char[] letters = Console.ReadLine ().ToLower ().ToCharArray ();
-         if (letters.Any (x => !char.IsLetter (x))) {
-            Console.Write ("Only alphabets are allowed.");
-            return;
+         char[] letters;
+         for (int i = 0; ; i++) {
+            Console.Write ("Enter the characters to be sorted (as string): ");
+            letters = Console.ReadLine ().ToLower ().ToCharArray ();
+            if (letters.Any (x => !char.IsLetter (x))) {
+               Console.Write ("Only alphabets are allowed.\n");
+               continue;
+            } else break;
          }
-         Console.Write ("Enter the special character to be swapped to the end: ");
-         string splCharInput = Console.ReadLine ();
-         if (splCharInput.Length != 1 || splCharInput.Any (x => !char.IsLetter (x))) {
-            Console.Write ("Invalid Input.");
-            return;
+         string splCharInput;
+         for (int i = 0; ; i++) {
+            Console.Write ("Enter the special character to be swapped to the end: ");
+            splCharInput = Console.ReadLine ();
+            if (splCharInput.Length != 1 || splCharInput.Any (x => !char.IsLetter (x))) {
+               Console.Write ("Invalid Input.\n");
+               continue;
+            } else break;
          }
          char splChar = splCharInput.ToCharArray ()[0];
          Console.Write ("Enter the order of sorting (D for descending, anything else ascending): ");
