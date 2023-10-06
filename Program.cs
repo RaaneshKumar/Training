@@ -14,10 +14,14 @@ namespace Training {
       /// <summary>This method gets valid user input and displays the sorted and swapped array</summary>
       static void Main () {
          Console.Write ("Enter the characters to be sorted (as string): ");
-         char[] letters = Console.ReadLine ().ToCharArray ();
+         char[] letters = Console.ReadLine ().ToLower ().ToCharArray ();
+         if (letters.Any (x => !char.IsLetter (x))) {
+            Console.Write ("Only alphabets are allowed.");
+            return;
+         }
          Console.Write ("Enter the special character to be swapped to the end: ");
          string splCharInput = Console.ReadLine ();
-         if (splCharInput.Length != 1) {
+         if (splCharInput.Length != 1 || splCharInput.Any (x => !char.IsLetter (x))) {
             Console.Write ("Invalid Input.");
             return;
          }
