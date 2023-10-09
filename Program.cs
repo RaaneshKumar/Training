@@ -29,12 +29,12 @@ namespace Training {
          Console.Write ("Before Swapping: ");
          foreach (int number in numberSeries) Console.Write (number + " ");
 
-         Console.Write ("\nEnter the indices to be swapped: \nFirst Index: ");
+         Console.Write ("\nEnter the indices to be swapped (Range lies between 0 to count-1): \nFirst Index: ");
          try {
-            int firstIndex = GetValidNumber ();
+            int idx1 = GetValidNumber ();
             Console.Write ("Second Index: ");
-            int secondIndex = GetValidNumber ();
-            SwapIndices (numberSeries, firstIndex, secondIndex);
+            int idx2 = GetValidNumber ();
+            SwapIndices (numberSeries, idx1, idx2);
             Console.Write ("After Swapping: ");
             foreach (int number in numberSeries) Console.Write (number + " ");
          } catch (IndexOutOfRangeException) { Console.Write ("One or two of the given indices were out of range."); }
@@ -44,7 +44,7 @@ namespace Training {
       /// <returns>Returns an the user input as int if valid</returns>
       static int GetValidNumber () {
          for (int i = 0; ; i++) {
-            if (!int.TryParse (Console.ReadLine (), out int a)) Console.Write ("Invalid Input.");
+            if (!int.TryParse (Console.ReadLine (), out int a)) Console.WriteLine ("Invalid Input.");
             else return a;
          }
       }
