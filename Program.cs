@@ -15,23 +15,22 @@ namespace Training {
       /// <summary>This method gets the numbers from the user and displays the swapped numbers</summary>
       static void Main () {
          Console.WriteLine ("Enter two numbers to be swapped: ");
-         (double firstNumber, double secondNumber) = (GetValidNumber (), GetValidNumber ());
-         var swappedNumbers = Swap (firstNumber, secondNumber);
-         Console.WriteLine ($"Before Swapping\t: a = {firstNumber}, b = {secondNumber}\nAfter swapping\t: a = {swappedNumbers.Item1}, b = {swappedNumbers.Item2}");
-
+         (int a, int b) = (GetValidNumber (), GetValidNumber ());
+         Console.WriteLine ($"Before Swapping\t: a = {a}, b = {b}");
+         Swap (ref a, ref b);
+         Console.WriteLine ($"After swapping\t: a = {a}, b = {b}");
       }
 
       /// <summary>This method swaps the two numbers</summary>
       /// <param name="a"></param>
       /// <param name="b"></param>
-      /// <returns>Returns the swapped numbers in the form of a tuple</returns>
-      static (double, double) Swap (double a, double b) => (b, a);
+      static void Swap (ref int a, ref int b) => (a, b) = (b, a);
 
-      /// <summary>This method checks for valid input and converts it to a double if valid</summary>
-      /// <returns>Returns a double if input is valid</returns>
-      static double GetValidNumber () {
+      /// <summary>This method checks for valid input and converts it to an int if valid</summary>
+      /// <returns>Returns an int if input is valid</returns>
+      static int GetValidNumber () {
          for (int i = 1; ; i++) {
-            if (!double.TryParse (Console.ReadLine (), out double b)) Console.WriteLine ("Invalid Input.");
+            if (!int.TryParse (Console.ReadLine (), out int b)) Console.WriteLine ("Invalid Input.");
             else return b;
          }
       }
