@@ -14,7 +14,7 @@ namespace Training {
       /// <summary>This method gets valid user input and displays the sorted and swapped array</summary>
       static void Main () {
          char[] letters;
-         for (int i = 0; ; i++) {
+         for (; ; ) {
             Console.Write ("Enter the characters to be sorted (as string): ");
             letters = Console.ReadLine ().ToLower ().ToCharArray ();
             if (letters.Any (x => !char.IsLetter (x))) {
@@ -23,7 +23,7 @@ namespace Training {
             } else break;
          }
          string splCharInput;
-         for (int i = 0; ; i++) {
+         for (; ; ) {
             Console.Write ("Enter the special character to be swapped to the end: ");
             splCharInput = Console.ReadLine ();
             if (splCharInput.Length != 1 || splCharInput.Any (x => !char.IsLetter (x))) {
@@ -31,24 +31,22 @@ namespace Training {
                continue;
             } else break;
          }
-         char splChar = splCharInput.ToCharArray ()[0];
+         char splChar = splCharInput[0];
          Console.Write ("Enter the order of sorting (D for descending, anything else ascending): ");
-         Console.Write ($"After Sorting and Swapping: {(Console.ReadLine () is "D" or "d" ? SortAndSwapSplChar (letters, splChar, 'd') : SortAndSwapSplChar (letters, splChar))}");
+         Console.Write ($"After Sorting and Swapping: {(Console.ReadLine () is "D" or "d" ?
+            SortAndSwapSplChar (letters, splChar, 'd') : SortAndSwapSplChar (letters, splChar))}");
       }
 
-      /// <summary>This method sorts the char array in desired order and swaps the spl char to the end</summary>
+      /// <summary>This method sorts and swaps the spl char to the end from the given array</summary>
       /// <param name="letters"></param>
       /// <param name="splChar"></param>
       /// <param name="order"></param>
       /// <returns>Returns sorted and swapped array as string</returns>
       static string SortAndSwapSplChar (char[] letters, char splChar, char order = 'a') {
-         var list = letters.ToList ();
-         int count = list.Count (x => x == splChar);
-         list.RemoveAll (x => x == splChar);
-         if (order == 'd') list = list.OrderDescending ().ToList ();
-         else list.Sort ();
-         for (int i = 0; i < count; i++) list.Add (splChar);
-         return String.Join ("", list);
+         var sortedList = letters.Where (x => x != splChar).ToList ();
+         sortedList = order == 'd' ? sortedList.OrderDescending ().ToList () : sortedList.Order ().ToList ();
+         for (int i = 0; i < letters.Length - sortedList.Count; i++) sortedList.Add (splChar);
+         return String.Join ("", sortedList);
       }
       #endregion
    }
