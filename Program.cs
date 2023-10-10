@@ -26,7 +26,6 @@ namespace Training {
             Console.WriteLine ($"(Winner, Votes) = {GetWinnnerAndVotes (input)}");
             break;
          }
-
       }
 
       /// <summary>This method calculates which character has occured most number of times and declares the winner</summary>
