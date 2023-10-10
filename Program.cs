@@ -14,20 +14,29 @@ namespace Training {
    #region class Program ------------------------------------------------------------------------
    internal class Program {
       #region Method ----------------------------------------------
-      /// <summary>This method gets a string from the user as input and displays the winner along with its number of votes</summary>
+      /// <summary>This method gets a valid string from the user as input and displays the winner along with its number of votes</summary>
       static void Main () {
-         Console.Write ("Enter a string: ");
-         string input = Console.ReadLine ().ToLower ();
-         Console.WriteLine (input.Length == 0 ? "Empty string not accepted." : $"(Winner, Votes) = {GetWinnnerAndVotes (input)}");
+         Console.Write ("Enter a string (Only alphabets are allowed): ");
+         for (; ; ) {
+            string input = Console.ReadLine ().Trim ().ToLower ();
+            if (String.IsNullOrEmpty (input) || !input.All (char.IsLetter)) {
+               Console.WriteLine ("Invalid Input.");
+               continue;
+            }
+            Console.WriteLine ($"(Winner, Votes) = {GetWinnnerAndVotes (input)}");
+            break;
+         }
+
       }
+
       /// <summary>This method calculates which character has occured most number of times and declares the winner</summary>
       /// <param name="word"></param>
       /// <returns>Returns the winner and its number of votes in the form of a tuple</returns>
       static (char, int) GetWinnnerAndVotes (string word) {
-         int[] votes = new int[word.Length];
-         for (int i = 0; i < word.Length; i++) votes[i] = word.Count (x => x == word[i]);
-         int maxVotes = votes.Max ();
-         return (word[Array.IndexOf (votes, maxVotes)], maxVotes);
+         var a = word.GroupBy (x => x)
+                     .OrderByDescending (x => x.Count ())
+                     .First ();
+         return (a.Key, a.Count ());
       }
       #endregion
    }
