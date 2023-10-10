@@ -24,19 +24,21 @@ namespace Training {
       /// <summary>This method reads the text file, displays valid words in the arrangement of (score. word) 
       /// and displays pangrams in green color</summary>
       static void Main () {
-         string[] words = File.ReadAllLines ("C:words.txt.crdownload");
+         string[] words = File.ReadAllLines ("C:/etc/words.txt");
          int nPangram = 0;
 
-         var list = words.Where (IsValid).Select (x => (Score: GetScore (x, ref nPangram), Word: x)).ToList ();
-         var orderedList = list.OrderByDescending (x => x.Score).ToList ();
-         for (int i = 0; i < orderedList.Count; i++) {
+         var list = words.Where (IsValid)
+                         .Select (x => (Score: GetScore (x, ref nPangram), Word: x))
+                         .OrderByDescending (x => x.Score)
+                         .ToList ();
+         for (int i = 0; i < list.Count; i++) {
             if (i < nPangram) { // Displays in green for pangrams
                ForegroundColor = ConsoleColor.Green;
-               Console.WriteLine ($"{orderedList[i].Score,3}. {orderedList[i].Word}");
+               Console.WriteLine ($"{list[i].Score,3}. {list[i].Word}");
                Console.ResetColor ();
-            } else Console.WriteLine ($"{orderedList[i].Score,3}. {orderedList[i].Word}");
+            } else Console.WriteLine ($"{list[i].Score,3}. {list[i].Word}");
          }
-         Console.WriteLine ($"----\n{orderedList.Sum (x => x.Score)} total");
+         Console.WriteLine ($"----\n{list.Sum (x => x.Score)} total");
       }
 
       /// <summary>This method checks if the word is valid or not</summary>
