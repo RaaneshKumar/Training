@@ -29,7 +29,7 @@ namespace Training {
       /// <summary>This method checks for valid input and converts it to an int if valid</summary>
       /// <returns>Returns an int if input is valid</returns>
       static int GetValidNumber () {
-         for (int i = 1; ; i++) {
+         for (; ; ) {
             if (!int.TryParse (Console.ReadLine (), out int b)) Console.WriteLine ("Invalid Input.");
             else return b;
          }
