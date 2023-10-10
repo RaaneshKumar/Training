@@ -13,20 +13,16 @@ namespace Training {
    /// <summary>Chocolate Wrappers</summary>
    internal class Program {
       #region Method ----------------------------------------------
-      /// <summary>This method gets required input from the user and displays the number of chocolates, unused money and wrappers as output</summary>
+      /// <summary>This method displays the number of chocolates, unused money and wrappers if input is valid</summary>
       static void Main () {
          Console.WriteLine ("Enter the (M)oney available, (P)rice of chocolate, (W)rappers required to exchange a chocolate in the format (M P W): ");
-         string[] inputArray = Console.ReadLine ().Split (" ");
-
-         if (inputArray.Length != 3) Console.WriteLine ("Input not in expected format.");
-         else {
-            int[] values = { };
-            for (int i = 0; i < 3; i++) {
-               if (!int.TryParse (inputArray[i], out int data)) Console.WriteLine ("Invalid Input.");
-               else values = values.Append (data).ToArray ();
-            }
-            if (values.Length == 3) Console.WriteLine (values.Any (x => x < 0) ? "No Negative inputs." : $"(Chocolates, Money remaining, Wrappers remaining) : {ChocolateCalculator (values[0], values[1], values[2])}");
+         int[] vals = new int[3];
+         if (!IsValidInput (ref vals)) {
+            Console.WriteLine ("Invalid Input.");
+            return;
          }
+         if (vals.Length == 3) Console.WriteLine (vals.Any (x => x < 0) ?
+            "No Negative inputs." : $"(Chocolates, Money remaining, Wrappers remaining) : {ChocolateCalculator (vals[0], vals[1], vals[2])}");
       }
 
       /// <summary>This method calculates the number of chocolates, unused money and wrappers</summary>
@@ -38,6 +34,19 @@ namespace Training {
          int chocolates = (money / price);
          chocolates += chocolates / wrappers;
          return (chocolates, money % price, chocolates % wrappers);
+      }
+
+      /// <summary>This method checks for valid input and stores it in an array if valid</summary>
+      /// <param name="values"></param>
+      /// <returns>Returns false if invalid input is entered</returns>
+      static bool IsValidInput (ref int[] values) {
+         string[] inputArray = Console.ReadLine ().Split (" ");
+         if (inputArray.Length != 3) return false;
+         for (int i = 0; i < 3; i++) {
+            if (!int.TryParse (inputArray[i], out int data)) return false;
+            values[i] = data;
+         }
+         return true;
       }
       #endregion
    }
