@@ -29,7 +29,7 @@ namespace Training {
          Console.Write ("Before Swapping: ");
          foreach (int number in numberSeries) Console.Write (number + " ");
 
-         Console.Write ("\nEnter the indices to be swapped (Range lies between 0 to count-1): \nFirst Index: ");
+         Console.Write ("\nEnter the indices to be swapped (Range lies between 0 to count - 1): \nFirst Index: ");
          try {
             int idx1 = GetValidNumber ();
             Console.Write ("Second Index: ");
@@ -43,7 +43,7 @@ namespace Training {
       /// <summary>Checks for valid input and converts it to int if valid</summary>
       /// <returns>Returns an the user input as int if valid</returns>
       static int GetValidNumber () {
-         for (int i = 0; ; i++) {
+         for (; ; ) {
             if (!int.TryParse (Console.ReadLine (), out int a)) Console.WriteLine ("Invalid Input.");
             else return a;
          }
