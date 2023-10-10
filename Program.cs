@@ -3,17 +3,34 @@
 // Copyright (c) Metamation India.                                                
 // ---------------------------------------------------------------------------
 // Program.cs                                                                     
-// 
-// 
-// 
+// Program to print the frequency of each charcter in the words.txt file in descending order.
+// Also displays the most popular seeds for the spelling bee game.
 // ---------------------------------------------------------------------------------------
-using static System.Console;
+
 namespace Training {
    #region class Program ------------------------------------------------------------------------
+   /// <summary>Spelling Bee Frequency</summary>
    internal class Program {
       #region Method ----------------------------------------------
-      static void Main (string[] args) {
-         Console.WriteLine ("Hello, World!");
+      /// <summary>This method calls the SpellBeeFreq method</summary>
+      static void Main () => SpellBeeFreq ();
+
+      /// <summary>This method reads all lines from the text file 
+      /// and displays the frequency of each character in descending order 
+      /// and the most popular seeds for the spell bee game</summary>
+      static void SpellBeeFreq () {
+         // Frequency of each character in the text file in descending order
+         string words = String.Join ("", File.ReadAllLines ("C:/etc/words.txt"));
+         var list = words.GroupBy (x => x)
+                         .OrderByDescending (x => x.Count ())
+                         .ToList ();
+         foreach (var l in list) Console.WriteLine ($"{l.Key}  -  {l.Count ()} time(s)");
+
+         // Most frequent seeds for spell bee game
+         char[] seed = new char[7];
+         for (int i = 0; i < 7; i++) seed[i] = list[i].Key;
+         Console.Write ("\nSeed for spelling bee program: ");
+         foreach (var x in seed) Console.Write (x + " ");
       }
       #endregion
    }
