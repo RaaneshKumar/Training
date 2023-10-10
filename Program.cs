@@ -15,7 +15,7 @@ namespace Training {
       #region Method ----------------------------------------------
       /// <summary>This method prints a series of numbers based on the count given by the user and displays the updated series after swapping the user asked indices</summary>
       static void Main () {
-         Console.Write ("Enter the count (2-10) of random numbers to be displayed: ");
+         Console.Write ("Enter the count (2 - 10) of random numbers to be displayed: ");
          int count = GetValidNumber ();
          if (count < 2 || count > 10) {
             Console.Write ("Count must be between 2 to 10.");
