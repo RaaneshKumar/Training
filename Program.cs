@@ -21,16 +21,14 @@ namespace Training {
       static void SpellBeeFreq () {
          // Frequency of each character in the text file in descending order
          string words = String.Join ("", File.ReadAllLines ("C:/etc/words.txt"));
-         var list = words.GroupBy (x => x)
+         var freqList = words.GroupBy (x => x)
                          .OrderByDescending (x => x.Count ())
                          .ToList ();
-         foreach (var l in list) Console.WriteLine ($"{l.Key}  -  {l.Count ()} time(s)");
+         foreach (var l in freqList) Console.WriteLine ($"{l.Key}  -  {l.Count ()} time(s)");
 
          // Most frequent seeds for spell bee game
-         char[] seed = new char[7];
-         for (int i = 0; i < 7; i++) seed[i] = list[i].Key;
-         Console.Write ("\nSeed for spelling bee program: ");
-         foreach (var x in seed) Console.Write (x + " ");
+         var seed = freqList.Take (7).Select (x => x.Key).ToArray ();
+         Console.WriteLine ($"\nSeed for spelling bee program: {String.Join (" ", seed)}");
       }
       #endregion
    }
