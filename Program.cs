@@ -27,8 +27,7 @@ namespace Training {
          foreach (var l in freqList) Console.WriteLine ($"{l.Key}  -  {l.Count ()} time(s)");
 
          // Most frequent seeds for spell bee game
-         var seed = freqList.Take (7).Select (x => x.Key).ToArray ();
-         Console.WriteLine ($"\nSeed for spelling bee program: {String.Join (" ", seed)}");
+         Console.WriteLine ($"\nSeed for spelling bee program: {String.Join (" ", freqList.Take (7).Select (x => x.Key))}");
       }
       #endregion
    }
