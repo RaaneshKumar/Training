@@ -14,17 +14,16 @@ namespace Training {
       /// <summary>This method displays the sorted and swapped array</summary>
       static void Main () {
          string letters = GetValidInput ("Enter the characters (only alphabets) to be sorted (as string): ");
-         string splCharInput = GetValidInput ("Enter the special character to be swapped to the end: ", false);
-         char splChar = splCharInput[0];
+         char splChar = GetValidInput ("Enter the special character to be swapped to the end: ", false)[0];
          Console.Write ("Enter the order of sorting (D for descending, anything else ascending): ");
          Console.Write ($"After Sorting and Swapping: {(Console.ReadLine () is "D" or "d" ?
             SortAndSwapSplChar (letters, splChar, 'd') : SortAndSwapSplChar (letters, splChar))}");
       }
 
       /// <summary>This method sorts and swaps the spl char to the end from the given array</summary>
-      /// <param name="letters"></param>
-      /// <param name="splChar"></param>
-      /// <param name="order"></param>
+      /// <param name="letters">The sequence which has to be sorted and swapped</param>
+      /// <param name="splChar">Spl char to be swapped</param>
+      /// <param name="order">Ascending or descending</param>
       /// <returns>Returns sorted and swapped array as string</returns>
       static string SortAndSwapSplChar (string letters, char splChar, char order = 'a') {
          var sortedList = order == 'd' ? letters.Where (x => x != splChar).OrderDescending ().ToList ()
@@ -34,8 +33,8 @@ namespace Training {
       }
 
       /// <summary>This method gets the valid input from the user</summary>
-      /// <param name="command"></param>
-      /// <param name="isLenAlso"></param>
+      /// <param name="command">Asks user the input needed</param>
+      /// <param name="isLenAlso">Passed when input is checked for length condition</param>
       /// <returns>Reurns the valid Input</returns>
       static string GetValidInput (string command, bool isLenAlso = true) {
          for (; ; ) {
