@@ -1,0 +1,17 @@
+*.tmp
+*.user
+*.rej
+*.tlb
+*.pdn
+*.bak
+*.orig
+*.pdb
+*.obj
+**/bin/
+.vs/
+*/obj/
+**/obj/
+*.cache
+*.vcxproj.user
+*.csproj.user
+**/launchSettings.json
