@@ -6,9 +6,6 @@
 // Program to generate all string permutations.
 // Given a string, all of its possible permutations are displayed.
 // ---------------------------------------------------------------------------------------
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-
 namespace Training {
    #region class Program ------------------------------------------------------------------------
    internal class Program {
@@ -34,12 +31,12 @@ namespace Training {
                Swap (ref array[leftIdx], ref array[i]); // Changes the Fixed chars for the next loop
             }
          }
-      }
 
-      /// <summary>This method swaps two characters</summary>
-      /// <param name="a"></param>
-      /// <param name="b"></param>
-      static void Swap (ref char a, ref char b) => (a, b) = (b, a);
+         /// <summary>This method swaps two characters</summary>
+         /// <param name="a"></param>
+         /// <param name="b"></param>
+         static void Swap (ref char a, ref char b) => (a, b) = (b, a);
+      }
       #endregion
    }
    #endregion
