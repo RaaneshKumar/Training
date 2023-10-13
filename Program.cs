@@ -1,22 +1,45 @@
-﻿// To print a chessboard using unicode
-
-
-
+﻿// ---------------------------------------------------------------------------------------
+// Training ~ A training program for new joinees at Metamation, Batch- July 2023.
+// Copyright (c) Metamation India.                                                
+// ---------------------------------------------------------------------------
+// Program.cs                                                                     
+// Program to print a chess board using unicode values
+// ---------------------------------------------------------------------------------------
 using System.Text;
+using static System.Console;
 
-Console.OutputEncoding = Encoding.UTF8;
-Console.WriteLine ("\u250C" + string.Concat (Enumerable.Repeat ("\u2500\u2500\u2500\u252C", 7)) + "\u2500\u2500\u2500\u2510");
-Console.WriteLine ("\u2502 {0} \u2502 {1} \u2502 {2} \u2502 \u265B \u2502 \u265A \u2502 {2} \u2502 {1} \u2502 {0} \u2502", "\u265C", "\u265E", "\u265D");
-// black 265C - rook, 265E-knight, 265D - bishop, 265B - queen, 265A - king
-Console.WriteLine ("\u251C" + string.Concat (Enumerable.Repeat ("\u2500\u2500\u2500\u253C", 7)) + "\u2500\u2500\u2500\u2524");
-Console.WriteLine (string.Concat (Enumerable.Repeat ("\u2502 \u265F ", 8)) + "\u2502"); // 265F-black pawn
-Console.WriteLine ("\u251C" + string.Concat (Enumerable.Repeat ("\u2500\u2500\u2500\u253C", 7)) + "\u2500\u2500\u2500\u2524");
-string empty_blocks1 = string.Concat (Enumerable.Repeat ("\u2502   ", 8)) + "\u2502\n";
-string empty_blocks2 = "\u251C" + string.Concat (Enumerable.Repeat ("\u2500\u2500\u2500\u253C", 7)) + "\u2500\u2500\u2500\u2524\n";
-string empty_blocks = empty_blocks1 + empty_blocks2;
-Console.Write (string.Concat (Enumerable.Repeat (empty_blocks, 4)));
-Console.WriteLine (string.Concat (Enumerable.Repeat ("\u2502 \u2659 ", 8)) + "\u2502"); // 2659-white pawn
-Console.WriteLine ("\u251C" + string.Concat (Enumerable.Repeat ("\u2500\u2500\u2500\u253C", 7)) + "\u2500\u2500\u2500\u2524");
-Console.WriteLine ("\u2502 {0} \u2502 {1} \u2502 {2} \u2502 \u2655 \u2502 \u2654 \u2502 {2} \u2502 {1} \u2502 {0} \u2502", "\u2656", "\u2658", "\u2657");
-//white 2656-rook, 2658-knight, 2657-bishop, 2655-queen, 2654-king
-Console.WriteLine ("\u2514" + string.Concat (Enumerable.Repeat ("\u2500\u2500\u2500\u2534", 7)) + "\u2500\u2500\u2500\u2518");
+namespace Training {
+   #region class Program ------------------------------------------------------------------------
+   /// <summary>Chess Board</summary>
+   internal class Program {
+      #region Method ----------------------------------------------
+      /// <summary>This method prints the chess board with all pieces</summary>
+      static void Main () {
+         OutputEncoding = Encoding.UTF8;
+         string blRook = "\u265C", blKnight = "\u265E", blBishop = "\u265D", vLine = "\u2502",
+                whRook = "\u2656", whKnight = "\u2658", whBishop = "\u2657", hLine = "\u2500";
+         // Black : 265F - pawn, 265C - rook, 265E - knight, 265D - bishop, 265B - queen, 265A - king
+         // White : 2659 - pawn, 2656 - rook, 2658 - knight, 2657 - bishop, 2655 - queen, 2654 - king
+
+         for (int i = 0; i < 10; i++) {
+            switch (i) {
+               case 0: WriteLine ("\u250C" + string.Concat (Enumerable.Repeat ($"{hLine}{hLine}{hLine}\u252C", 7)) + $"{hLine}{hLine}{hLine}\u2510"); continue;
+               case 1: WriteLine ("{0} {1} {0} {2} {0} {3} {0} \u265B {0} \u265A {0} {3} {0} {2} {0} {1} {0}", vLine, blRook, blKnight, blBishop); continue;
+               case 2 or 4 or 7: WriteLine ("\u251C" + string.Concat (Enumerable.Repeat ($"{hLine}{hLine}{hLine}\u253C", 7)) + $"{hLine}{hLine}{hLine}\u2524"); continue;
+               case 3: WriteLine (string.Concat (Enumerable.Repeat ($"{vLine} \u265F ", 8)) + $"{vLine}"); continue;
+               case 5:
+                  for (int j = 0; j < 4; j++) {
+                     WriteLine (string.Concat (Enumerable.Repeat ($"{vLine}   ", 8)) + $"{vLine}");
+                     WriteLine ("\u251C" + string.Concat (Enumerable.Repeat ($"{hLine}{hLine}{hLine}\u253C", 7)) + $"{hLine}{hLine}{hLine}\u2524");
+                  }
+                  continue;
+               case 6: WriteLine (string.Concat (Enumerable.Repeat ($"{vLine} \u2659 ", 8)) + $"{vLine}"); continue;
+               case 8: WriteLine ("{0} {1} {0} {2} {0} {3} {0} \u2655 {0} \u2654 {0} {3} {0} {2} {0} {1} {0}", vLine, whRook, whKnight, whBishop); continue;
+               case 9: WriteLine ("\u2514" + string.Concat (Enumerable.Repeat ($"{hLine}{hLine}{hLine}\u2534", 7)) + $"{hLine}{hLine}{hLine}\u2518"); continue;
+            }
+         }
+      }
+      #endregion
+   }
+   #endregion
+}
