@@ -86,7 +86,7 @@ namespace Training {
          List<int> numbers = new () { 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000, 5000 };
          List<string> romans = new () { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" };
          while (num > 0) { // idx gets index of req roman number.
-            int idx = numbers.IndexOf (numbers.Where (x => num < x).ToList ()[0]) - 1;
+            int idx = numbers.IndexOf (numbers.Where (x => num < x).First ()) - 1;
             nRoman += romans[idx];
             num -= numbers[idx];
          }
