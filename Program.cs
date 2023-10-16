@@ -16,21 +16,18 @@ namespace Training {
       static void Main () {
          Console.WriteLine ("Enter a positive number: \n" +
                    "(Condition: Limit to convert to words is 10 crores. Limit to convert to roman numerals is 3999.)");
-         if (!int.TryParse (Console.ReadLine (), out int num)) {
+         if (!int.TryParse (Console.ReadLine (), out int num) || num < 0) {
             Console.WriteLine ("Invalid Input");
             return;
          }
-         if (num < 0) {
-            Console.WriteLine ("Enter positive number.");
-            return;
-         }
+
          Console.Write ("Type (W) to convert to words or (R) to roman: ");
          string choice = Console.ReadLine ().ToLower ();
 
          if (choice == "w") Console.WriteLine (num is > 100000000 or < 0
                             ? "Enter value within the limit."
                             : num == 0 ? "Zero" : GetNumInWords (num));
-         else if (choice == "r") Console.WriteLine (num is 3999
+         else if (choice == "r") Console.WriteLine (num is > 3999
                                  ? "Enter value within the limit."
                                  : num <= 0 ? "No equivalent roman number" : GetRomanNum (num));
          else Console.WriteLine ("Invlaid Input.");
@@ -51,7 +48,7 @@ namespace Training {
          }
          return numInWrds;
 
-         (string words, int rem) GetWords (int num, int div = 1) {
+         static (string words, int rem) GetWords (int num, int div = 1) {
             int quo, rem;
             string words = "";
             Dictionary<int, string> digits = new () {
