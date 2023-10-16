@@ -8,7 +8,7 @@
 
 namespace Training {
    #region class Program --------------------------------------------------------------------------
-   /// <summary>Number to wrods and roman numerals</summary>
+   /// <summary>Number to words and roman numerals</summary>
    internal class Program {
       #region Method ------------------------------------------------
       /// <summary>This method asks the user whether to display the num in words 
@@ -17,20 +17,20 @@ namespace Training {
          Console.WriteLine ("Enter a positive number: \n" +
                    "(Condition: Limit to convert to words is 10 crores. Limit to convert to roman numerals is 3999.)");
          if (!int.TryParse (Console.ReadLine (), out int num) || num < 0) {
-            Console.WriteLine ("Invalid Input");
+            Console.WriteLine ("Invalid input");
             return;
          }
 
          Console.Write ("Type (W) to convert to words or (R) to roman: ");
          string choice = Console.ReadLine ().ToLower ();
 
-         if (choice == "w") Console.WriteLine (num is > 100000000 or < 0
+         if (choice == "w") Console.WriteLine (num is > 100000000
                             ? "Enter value within the limit."
                             : num == 0 ? "Zero" : GetNumInWords (num));
          else if (choice == "r") Console.WriteLine (num is > 3999
                                  ? "Enter value within the limit."
-                                 : num <= 0 ? "No equivalent roman number" : GetRomanNum (num));
-         else Console.WriteLine ("Invlaid Input.");
+                                 : num == 0 ? "No equivalent roman number" : GetRomanNum (num));
+         else Console.WriteLine ("Invalid input.");
       }
 
       /// <summary>This method converts the number to words</summary>
@@ -58,7 +58,7 @@ namespace Training {
                [16] = "sixteen", [17] = "seventeen", [18] = "eighteen", [19] = "nineteen"
             };
 
-            Dictionary<int, string> twentyToNinety = new () {
+            Dictionary<int, string> tensDigit = new () {
                [2] = "twenty ", [3] = "thirty ", [4] = "forty ", [5] = "fifty ",
                [6] = "sixty ", [7] = "seventy ", [8] = "eighty ", [9] = "ninety "
             };
@@ -70,7 +70,7 @@ namespace Training {
 
             quo = num / div; rem = num % div;
             if (quo >= 20) {
-               words = twentyToNinety[quo / 10];
+               words = tensDigit[quo / 10];
                quo %= 10;
             }
             if (quo != 0) words += digits[quo] + $" {(div == 1 ? "" : divisor[div])} ";
