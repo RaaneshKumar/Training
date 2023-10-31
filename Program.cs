@@ -19,9 +19,7 @@ namespace Training {
 
    /// <summary>Custom MyList<T> class</summary>
    public class MyList<T> {
-      T[] mList = new T[4];
-      int mCount = 0;
-
+      #region Properity ---------------------------------------------
       /// <summary>Gets the count of the MyList</summary>
       public int Count => mCount;
 
@@ -34,7 +32,9 @@ namespace Training {
          get => mList[index];
          set => mList[index] = value;
       }
+      #endregion
 
+      #region Method ------------------------------------------------
       /// <summary>This method adds a new element to the MyList</summary>
       /// <param name="a">New element to be added</param>
       public void Add (T a) {
@@ -85,9 +85,13 @@ namespace Training {
       }
 
       /// <summary>Swaps two elements in an array</summary>
-      /// <param name="idx1"></param>
-      /// <param name="idx2"></param>
       void Swap (int idx1, int idx2) => (mList[idx1], mList[idx2]) = (mList[idx2], mList[idx1]);
+      #endregion
+
+      #region Private -----------------------------------------------
+      T[] mList = new T[4];
+      int mCount = 0;
+      #endregion
    }
    #endregion
 }
