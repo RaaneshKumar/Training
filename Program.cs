@@ -41,7 +41,7 @@ namespace Training {
 
       /// <summary>Removes and returns the topmost element from the stack</summary>
       public T Pop () {
-         if (IsEmpty) return default;
+         if (IsEmpty) throw new InvalidOperationException ();
          (var a, mStack[Count - 1]) = (mStack[Count - 1], default);
          mCount--;
          if (Count == Capacity / 2) Array.Resize (ref mStack, Capacity / 2);
@@ -49,7 +49,7 @@ namespace Training {
       }
 
       /// <summary>Returns the topmost element from the stack</summary>
-      public T Peek () => IsEmpty ? default : mStack[Count - 1];
+      public T Peek () => IsEmpty ? throw new InvalidOperationException () : mStack[Count - 1];
       #endregion
 
       #region Private -----------------------------------------------
