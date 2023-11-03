@@ -35,17 +35,17 @@ namespace Training {
       /// <param name="a">Element to be pushed</param>
       public void Push (T a) {
          if (Count == Capacity) Array.Resize (ref mStack, Capacity * 2);
-         mStack[mCount] = a;
+         mStack[Count] = a;
          mCount++;
       }
 
       /// <summary>Removes and returns the topmost element from the stack</summary>
       public T Pop () {
          if (IsEmpty) throw new InvalidOperationException ();
-         (var a, mStack[Count - 1]) = (mStack[Count - 1], default);
+         (var popItem, mStack[Count - 1]) = (mStack[Count - 1], default);
          mCount--;
          if (Count == Capacity / 2) Array.Resize (ref mStack, Capacity / 2);
-         return a;
+         return popItem;
       }
 
       /// <summary>Returns the topmost element from the stack</summary>
