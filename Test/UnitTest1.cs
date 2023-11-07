@@ -15,18 +15,20 @@ namespace MSTestProject
         [TestMethod]
         public void PopTest () {
             TStack<int> stack = new ();
+            Assert.ThrowsException<InvalidOperationException> ( () => stack.Pop ());
             stack.Push (1);
             stack.Push (2);
-            Assert.AreEqual (2, stack.Pop());
+            Assert.AreEqual (2, stack.Pop ());
             Assert.AreEqual (1, stack.Count);
         }
 
         [TestMethod]
         public void PeekTest () {
             TStack<int> stack = new ();
+            Assert.ThrowsException<InvalidOperationException> ( () => stack.Peek ());
             stack.Push (1);
             stack.Push (2);
-            Assert.AreEqual (2, stack.Peek());
+            Assert.AreEqual (2, stack.Peek ());
         }
 
         [TestMethod]

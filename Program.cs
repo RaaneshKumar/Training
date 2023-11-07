@@ -41,15 +41,18 @@ namespace Training {
 
       /// <summary>Removes and returns the topmost element from the stack</summary>
       public T Pop () {
-         if (IsEmpty) throw new InvalidOperationException ();
+         if (IsEmpty) ThrowsException ();
          (var popItem, mStack[Count - 1]) = (mStack[Count - 1], default);
          mCount--;
-         if (Count == Capacity / 2) Array.Resize (ref mStack, Capacity / 2);
          return popItem;
       }
 
       /// <summary>Returns the topmost element from the stack</summary>
-      public T Peek () => IsEmpty ? throw new InvalidOperationException () : mStack[Count - 1];
+      public T Peek () => IsEmpty ? ThrowsException () : mStack[Count - 1];
+
+      /// <summary>This method throws Invalid Operation Exception when called</summary>
+      /// <exception cref="InvalidOperationException">Throwed when pop/peek is called on an empty list</exception>
+      T ThrowsException () => throw new InvalidOperationException ();
       #endregion
 
       #region Private -----------------------------------------------
