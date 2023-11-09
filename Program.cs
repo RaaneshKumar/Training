@@ -29,7 +29,10 @@ namespace Training {
       /// <summary>Gets the element or sets the value in the given index of MyList</summary>
       /// <param name="index">Any index of MyList</param>
       public T this[int index] {
-         get => !(index >= 0 && index < Count) ? throw new IndexOutOfRangeException () : mList[index];
+         get {
+            IdxOutOfRangeCheck (index);
+            return mList[index];
+         }
          set {
             IdxOutOfRangeCheck (index);
             mList[index] = value;
@@ -41,17 +44,16 @@ namespace Training {
       /// <summary>This method adds a new element to the MyList</summary>
       /// <param name="a">New element to be added</param>
       public void Add (T a) {
-         if (Count == Capacity) Array.Resize (ref mList, Capacity * 2);
+         CapactityCheck ();
          mList[mCount++] = a;
       }
 
-      /// <summary></summary>
+      /// <summary>Removes the first occurance of the given element</summary>
       /// <param name="a">Any element in MyList</param>
-      /// <returns>Returns true if removed successfully</returns>
-      /// <exception cref="Exception">Throws exception when non-existing element is asked to remove</exception>
+      /// <returns>Returns true if removed successfully else false</returns>
       public bool Remove (T a) {
-         if (!mList.Contains (a)) return false;
          int index = Array.IndexOf (mList, a);
+         if (index == -1) return false;
          mList[index] = default;
          mCount--;
 
@@ -71,8 +73,8 @@ namespace Training {
       /// <param name="a">Element to be inserted</param>
       /// <exception cref="Exception">Throws exception when invalid index is provided</exception>
       public void Insert (int index, T a) {
-         IdxOutOfRangeCheck (index);
-         if (Count == Capacity) Array.Resize (ref mList, Capacity * 2);
+         ArgOutOfRangeCheck (index, Count + 1);
+         CapactityCheck ();
          for (int i = index + 1; i < Capacity; i++) Swap (index, i);
          mList[index] = a;
          mCount++;
@@ -82,16 +84,27 @@ namespace Training {
       /// <param name="index">Index from which the element is asked to remove</param>
       /// <exception cref="Exception">Throws exception when invalid index is provided</exception>
       public void RemoveAt (int index) {
-         IdxOutOfRangeCheck (index);
+         ArgOutOfRangeCheck (index, Count);
          Remove (mList[index]);
       }
 
       /// <summary>Swaps two elements in an array</summary>
       void Swap (int idx1, int idx2) => (mList[idx1], mList[idx2]) = (mList[idx2], mList[idx1]);
 
-      /// <summary>Throws exception if invalid index is entered</summary>
+      /// <summary>Throws exception when accessing an idx out of valid range</summary>
       void IdxOutOfRangeCheck (int idx) {
          if (!(idx >= 0 && idx < Count)) throw new IndexOutOfRangeException ();
+      }
+
+      /// <summary>Throws exception when attempting an Insert or RemoveAt with invalid idx</summary>
+      /// <param name="cnt">Maximum limit of Index range</param>
+      void ArgOutOfRangeCheck (int idx, int cnt) {
+         if (!(idx >= 0 && idx < cnt)) throw new ArgumentOutOfRangeException ();
+      }
+
+      /// <summary>Increases capacity of array when needed</summary>
+      void CapactityCheck () {
+         if (Count == Capacity) Array.Resize (ref mList, Capacity * 2);
       }
       #endregion
 

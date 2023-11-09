@@ -8,7 +8,6 @@ namespace MSTestProject {
       public void AddTest () {
          myList.Add (1);
          myList.Add (2);
-         List<int> list = new () { 1, 2 };
          Assert.AreEqual (list.Count, myList.Count);
          Assert.AreEqual (list.Capacity, myList.Capacity);
       }
@@ -25,7 +24,6 @@ namespace MSTestProject {
       public void ClearTest () {
          myList.Add (1);
          myList.Add (2);
-         List<int> list = new () { 1, 2 };
          myList.Clear ();
          list.Clear ();
          Assert.AreEqual (list.Count, myList.Count);
@@ -35,29 +33,26 @@ namespace MSTestProject {
       public void InsertTest () {
          myList.Add (1);
          myList.Add (2);
-         List<int> list = new () { 1, 2 };
          myList.Insert (1, 5);
          list.Insert (1, 5);
          Assert.AreEqual (list[1], myList[1]);
-         Assert.ThrowsException<IndexOutOfRangeException> (() => myList.Insert (3, 7));
+         Assert.ThrowsException<ArgumentOutOfRangeException> (() => myList.Insert (5, 7));
       }
 
       [TestMethod]
       public void RemoveAtTest () {
          myList.Add (1);
          myList.Add (2);
-         List<int> list = new () { 1, 2 };
          myList.RemoveAt (0);
          list.RemoveAt (0);
          Assert.AreEqual (list.Count, myList.Count);
-         Assert.ThrowsException<IndexOutOfRangeException> (() => myList.RemoveAt (3));
+         Assert.ThrowsException<ArgumentOutOfRangeException> (() => myList.RemoveAt (3));
       }
 
       [TestMethod]
       public void ThisIndexTest () {
          myList.Add (1);
          myList.Add (2);
-         List<int> list = new () { 1, 2 };
          Assert.AreEqual (myList[0], list[0]);
          Assert.ThrowsException<IndexOutOfRangeException> (() => myList[3]);
          myList[1] = 3;
@@ -66,5 +61,6 @@ namespace MSTestProject {
       }
 
       MyList<int> myList = new ();
+      List<int> list = new () { 1, 2 };
    }
 }
