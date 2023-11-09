@@ -9,8 +9,6 @@
 // Throw exceptions when necessary. 
 // ---------------------------------------------------------------------------------------
 
-using System;
-
 namespace Training {
    #region class Program --------------------------------------------------------------------------
    internal class Program {
@@ -32,7 +30,10 @@ namespace Training {
       /// <param name="index">Any index of MyList</param>
       public T this[int index] {
          get => !(index >= 0 && index < Count) ? throw new IndexOutOfRangeException () : mList[index];
-         set => mList[index] = value;
+         set {
+            IdxOutOfRangeCheck (index);
+            mList[index] = value;
+         }
       }
       #endregion
 
@@ -41,8 +42,7 @@ namespace Training {
       /// <param name="a">New element to be added</param>
       public void Add (T a) {
          if (Count == Capacity) Array.Resize (ref mList, Capacity * 2);
-         mList[Count] = a;
-         mCount++;
+         mList[mCount++] = a;
       }
 
       /// <summary></summary>
@@ -50,7 +50,7 @@ namespace Training {
       /// <returns>Returns true if removed successfully</returns>
       /// <exception cref="Exception">Throws exception when non-existing element is asked to remove</exception>
       public bool Remove (T a) {
-         if (!mList.Contains (a)) throw new InvalidOperationException ();
+         if (!mList.Contains (a)) return false;
          int index = Array.IndexOf (mList, a);
          mList[index] = default;
          mCount--;

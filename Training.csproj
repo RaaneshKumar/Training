@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Test26_27\**" />
     <Compile Remove="Test\**" />
+    <EmbeddedResource Remove="Test26_27\**" />
     <EmbeddedResource Remove="Test\**" />
+    <None Remove="Test26_27\**" />
     <None Remove="Test\**" />
   </ItemGroup>
 
