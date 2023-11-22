@@ -70,18 +70,10 @@ namespace Training {
          return false;
 
          /// <summary>Checks whether the solution is a mirror image of the previous solutions</summary>
-         static bool IsMirror (int[] a) {
-            var b = new int[8];
-            for (int i = 0; i < 8; i++) b[7 - i] = a[i];
-            if (IsDuplicate (b)) return true;
-            return false;
-         }
+         static bool IsMirror (int[] a) => IsDuplicate (a.Reverse ().ToArray ());
 
          /// <summary>Checks whether the solution is identical to the previous solutions</summary>
-         static bool IsDuplicate (int[] a) {
-            if (sAllSlns.Any (x => x.SequenceEqual (a))) return true;
-            return false;
-         }
+         static bool IsDuplicate (int[] a) => sAllSlns.Any (x => x.SequenceEqual (a));
 
          /// <summary>Checks whether the solution is a rotated image of the previous solutions</summary>
          static bool IsRotatedImage (int[] a) {
@@ -121,8 +113,7 @@ namespace Training {
          for (int col = 0; col < 8; col++) {
             if (IsSafe (row, col)) {
                sColumns[row] = col;
-               var sln = new int[8];
-               CopySolution (sColumns, sln);
+               var sln = sColumns.ToArray ();
                if (isUnique ? row == 7 && IsUnique (sln) : row == 7) sAllSlns.Add (sln);
                else PlaceQueen (isUnique, row + 1);
             }
