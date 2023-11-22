@@ -5,35 +5,28 @@ namespace Test {
    public class UnitTest1 {
       [TestMethod]
       public void EnqueueTest () {
-         myQueue.Enqueue (1);
-         myQueue.Enqueue (2);
-         queue.Enqueue (1);
-         queue.Enqueue (2);
-         Assert.AreEqual (queue.Count, myQueue.Count);
+         mQueue.Enqueue (1);
+         mQueue.Enqueue (2);
+         Assert.AreEqual (2, mQueue.Count);
       }
 
       [TestMethod]
       public void DequeueTest () {
-         Assert.ThrowsException<InvalidOperationException> (() => myQueue.Dequeue ());
-         myQueue.Enqueue (1);
-         myQueue.Enqueue (2);
-         queue.Enqueue (1);
-         queue.Enqueue (2);
-         Assert.AreEqual (queue.Dequeue (), myQueue.Dequeue ());
-         Assert.AreEqual (queue.Count, myQueue.Count);
+         Assert.ThrowsException<InvalidOperationException> (() => mQueue.Dequeue ());
+         mQueue.Enqueue (1);
+         mQueue.Enqueue (2);
+         Assert.AreEqual (1, mQueue.Dequeue ());
+         Assert.AreEqual (1, mQueue.Count);
       }
 
       [TestMethod]
       public void PeekTest () {
-         Assert.ThrowsException<InvalidOperationException> (() => myQueue.Peek ());
-         myQueue.Enqueue (1);
-         myQueue.Enqueue (2);
-         queue.Enqueue (1);
-         queue.Enqueue (2);
-         Assert.AreEqual (queue.Peek (), myQueue.Peek ());
+         Assert.ThrowsException<InvalidOperationException> (() => mQueue.Peek ());
+         mQueue.Enqueue (1);
+         mQueue.Enqueue (2);
+         Assert.AreEqual (1, mQueue.Peek ());
       }
 
-      TQueue<int> myQueue = new ();
-      Queue<int> queue = new ();
+      TQueue<int> mQueue = new ();
    }
 }
