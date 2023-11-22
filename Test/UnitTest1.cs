@@ -21,8 +21,10 @@ namespace MSTestProject {
          myList.Add (2);
          list.Add (1);
          list.Add (2);
-         myList.Remove (1);
-         list.Remove (1);
+         Assert.IsTrue (myList.Remove (1));
+         Assert.IsTrue (list.Remove (1));
+         Assert.IsFalse (myList.Remove (5));
+         Assert.IsFalse (list.Remove (5));
          Assert.AreEqual (list.Count, myList.Count);
          myList.Clear ();
          list.Clear ();
