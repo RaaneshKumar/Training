@@ -113,17 +113,14 @@ namespace Training {
          for (int col = 0; col < 8; col++) {
             if (IsSafe (row, col)) {
                sColumns[row] = col;
-               var sln = sColumns.ToArray ();
-               if (isUnique ? row == 7 && IsUnique (sln) : row == 7) sAllSlns.Add (sln);
+               if (isUnique ? row == 7 && IsUnique (sColumns) : row == 7) sAllSlns.Add (sColumns.ToArray ());
                else PlaceQueen (isUnique, row + 1);
             }
          }
       }
 
       /// <summary>Creates a copy of the given array</summary>
-      static void CopySolution (int[] original, int[] copy) {
-         for (int i = 0; i < 8; i++) copy[i] = original[i];
-      }
+      static void CopySolution (int[] original, int[] copy) => Array.Copy (original, copy, 8);
       #endregion
 
       #region Private -----------------------------------------------
