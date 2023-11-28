@@ -5,28 +5,36 @@ namespace Test {
    public class UnitTest1 {
       [TestMethod]
       public void EnqueueTest () {
+         mMyQueue.Enqueue (1);
+         mMyQueue.Enqueue (2);
          mQueue.Enqueue (1);
          mQueue.Enqueue (2);
-         Assert.AreEqual (2, mQueue.Count);
+         Assert.AreEqual (mQueue.Count, mMyQueue.Count);
       }
 
       [TestMethod]
       public void DequeueTest () {
-         Assert.ThrowsException<InvalidOperationException> (() => mQueue.Dequeue ());
+         Assert.ThrowsException<InvalidOperationException> (() => mMyQueue.Dequeue ());
+         mMyQueue.Enqueue (1);
+         mMyQueue.Enqueue (2);
          mQueue.Enqueue (1);
          mQueue.Enqueue (2);
-         Assert.AreEqual (1, mQueue.Dequeue ());
-         Assert.AreEqual (1, mQueue.Count);
+         Assert.AreEqual (mQueue.Dequeue (), mMyQueue.Dequeue ());
+         Assert.AreEqual (mQueue.Count, mMyQueue.Count);
       }
 
       [TestMethod]
       public void PeekTest () {
-         Assert.ThrowsException<InvalidOperationException> (() => mQueue.Peek ());
+         Assert.ThrowsException<InvalidOperationException> (() => mMyQueue.Peek ());
+         mMyQueue.Enqueue (1);
+         mMyQueue.Enqueue (2);
          mQueue.Enqueue (1);
          mQueue.Enqueue (2);
-         Assert.AreEqual (1, mQueue.Peek ());
+         Assert.AreEqual (mQueue.Peek (), mMyQueue.Peek ());
+         Assert.AreEqual (mQueue.Count, mMyQueue.Count);
       }
 
-      TQueue<int> mQueue = new ();
+      TQueue<int> mMyQueue = new ();
+      Queue<int> mQueue = new ();
    }
 }
