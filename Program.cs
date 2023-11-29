@@ -22,20 +22,22 @@ namespace Training {
       /// <param name="s">user input</param>
       /// <returns>Returns true if the input is valid</returns>
       public static bool IsValid (string s) {
-         if (s.Any (x => x != '+' && x != '-'                 // Checks if all are valid characters.
-                      && x != '.' && x != 'e'
+         var validChars = new char[4] { '+', '-', '.', 'e' };
+         if (s.Any (x => !validChars.Contains (x)             // Checks if all are valid characters.
                       && !char.IsDigit (x))) return false;
-         if (s.All (x => !char.IsDigit (x))) return false;    // Checks if atleast one digit is present.
          if (s[0] == 'e' || s[^1] is 'e') return false;       // Checks if first and last characters are valid.
-         if ((s.Where (x => x == '.').Count () > 1) ||        // Checks if multiple decimal points are present.
-             (s.Where (x => x == 'e').Count () > 1)) return false; // Checks if multiple E's are present.
-         if (!ExpressionCheck ('+') || !ExpressionCheck ('-')) return false;
+         if ((s.Count (x => x == '.') > 1) ||                 // Checks if multiple decimal points are present.
+             (s.Count (x => x == 'e') > 1)) return false;     // Checks if multiple E's are present.
+         if (!ExpressionCheck ('+')                           // Checks if '+' and '-' are in their valid positions.
+             || !ExpressionCheck ('-')) return false;
+         if (!char.IsDigit (s[s.IndexOf ('e') - 1])           // Checks if values before or after 'e' is valid.
+            || s[^2] == 'e' && !char.IsDigit (s[^1])) return false;
          return true;
 
          /// <summary>Checks if the '+' or '-' in user input is unary</summary>
          /// <param name="a">char '+' or '-'</param>
          bool ExpressionCheck (char a) {
-            switch (s.Where (x => x == a).Count ()) {
+            switch (s.Count (x => x == a)) {
                case 1:
                   if (s[0] != a && s[s.IndexOf ('e') + 1] != a) return false;
                   break;
@@ -57,7 +59,7 @@ namespace Training {
       }
 
       /// <summary>Checks if the input has 'e' in it</summary>
-      /// <returns></returns>
+      /// <returns>Returns true if 'e' is present</returns>
       static bool ContainsE (string s) => s.Any (x => x == 'e');
 
       /// <summary>Converts the string to double if E is present</summary>
@@ -65,7 +67,6 @@ namespace Training {
       static double GetSolvedE (string s) {
          double firstPart, secPart;
          string[] parts = s.Split ('e');
-
          firstPart = ContainsPoint (parts[0]) ? GetSolvedPoint (parts[0]) : int.Parse (parts[0]);
          secPart = ContainsPoint (parts[1]) ? GetSolvedPoint (parts[1]) : int.Parse (parts[1]);
          return firstPart * Math.Pow (10, secPart);
@@ -75,17 +76,15 @@ namespace Training {
       /// <returns>Returns true if decimal point is present</returns>
       static bool ContainsPoint (string s) => s.Any (x => x == '.');
 
-      /// <summary>Converts the string to double if decimal pint is present.</summary>
+      /// <summary>Converts the string to double if decimal point is present</summary>
       /// <returns>Returns the converted double value</returns>
       static double GetSolvedPoint (string s) {
          string[] parts = s.Split ('.');
          int integral = 0, fractional = 0;
-
          if (s[0] == '.' ||                       // Checks for values like .2 and -.2
              (parts[0] == "-" && s[1] == '.')) fractional = int.Parse (parts[1]);
          else if (s[^1] == '.') integral = int.Parse (parts[0]); // Checks for values ending with a decimal point.
          else { integral = int.Parse (parts[0]); fractional = int.Parse (parts[1]); }
-
          double parsedDouble = Math.Abs (integral) + (fractional / Math.Pow (10, parts[1].Length));
          return s[0] == '-' ? -parsedDouble : parsedDouble;
       }

@@ -32,6 +32,9 @@ namespace Test {
          Assert.IsFalse (DoubleParse.IsValid ("12-32"));
          Assert.IsFalse (DoubleParse.IsValid ("+1+2e+2"));
          Assert.IsFalse (DoubleParse.IsValid ("+e."));
+         Assert.IsFalse (DoubleParse.IsValid ("+9e."));
+         Assert.IsFalse (DoubleParse.IsValid ("+e.9"));
+         Assert.IsFalse (DoubleParse.IsValid ("+9e+"));
       }
    }
 }
