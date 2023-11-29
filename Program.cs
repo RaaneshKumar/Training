@@ -23,9 +23,7 @@ namespace Training {
       static void Main () {
          WriteLine ("Press U to print unique solutions.\n" +
                     "Else print any other key to print all solutions.");
-         bool isUnique = false;
-         if (Console.ReadKey (true).Key is ConsoleKey.U) isUnique = true;
-         PlaceQueen (isUnique, 0);
+         PlaceQueen (0, Console.ReadKey (true).Key is ConsoleKey.U);
          PrintBoard ();
       }
 
@@ -109,12 +107,12 @@ namespace Training {
       /// <summary>Stores the safe positions of a solution in an array
       /// and stores all the solution arrays in a list</summary>
       /// <param name="row">Fixing the value of row to go through all columns of that row</param>
-      static void PlaceQueen (bool isUnique, int row) {
+      static void PlaceQueen (int row, bool isUniqueRequired) {
          for (int col = 0; col < 8; col++) {
             if (IsSafe (row, col)) {
                sColumns[row] = col;
-               if (isUnique ? row == 7 && IsUnique (sColumns) : row == 7) sAllSlns.Add (sColumns.ToArray ());
-               else PlaceQueen (isUnique, row + 1);
+               if (isUniqueRequired ? row == 7 && IsUnique (sColumns) : row == 7) sAllSlns.Add (sColumns.ToArray ());
+               else PlaceQueen (row + 1, isUniqueRequired);
             }
          }
       }
