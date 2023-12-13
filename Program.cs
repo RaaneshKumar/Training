@@ -85,8 +85,8 @@ namespace Training {
       }
 
       /// <summary>States of the file path.
-      /// A state transition diagram is attached for clear understanding
-      /// </summary>
+      /// A state transition diagram is attached for clear understanding.
+      /// See file://FileParser_BNF.jpg</summary>
       public enum EState { A, B, C, D, E, F, G, H, I, END, ERROR };
       #endregion
    }
