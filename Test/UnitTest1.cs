@@ -5,18 +5,14 @@ namespace Test {
    public class UnitTest1 {
       [TestMethod]
       public void UnaryMinusTest () {
-         Assert.AreEqual (-5, mEvaluator.Evaluate ("---5"));
-         Assert.AreEqual (5, mEvaluator.Evaluate ("-5+10"));
-         Assert.AreEqual (-6, mEvaluator.Evaluate ("-2-4"));
-         Assert.AreEqual (6, mEvaluator.Evaluate ("---4+5--2+3"));
-         Assert.AreEqual (-20, mEvaluator.Evaluate ("(2+3)*-4"));
-         Assert.AreEqual (25, mEvaluator.Evaluate ("(2+3)*+5"));
-         Assert.AreEqual (-32, mEvaluator.Evaluate ("-4*(3+5)"));
-         Assert.AreEqual (9, mEvaluator.Evaluate ("-4+5--8"));
-         Assert.AreEqual (9, mEvaluator.Evaluate ("-4+5-(-8)"));
-         Assert.AreEqual (0.01, mEvaluator.Evaluate ("10^(-4+2)"));
-         Assert.AreEqual (-110, mEvaluator.Evaluate ("-10-10^2"));
-         Assert.AreEqual (5, mEvaluator.Evaluate ("---4+5--6-2"));
+         Dictionary<string, double> testCases = new () {
+            ["---5"] = -5, ["-5+10"] = 5, ["-2-4"] = -6, ["---4+5--2+3"] = 6,
+            ["(2+3)*-4"] = -20, ["(2+3)*+5"] = 25, ["-4*(3+5)"] = -32, ["-4+5--8"] = 9,
+            ["-4+5-(-8)"] = 9, ["10^(-4+2)"] = .01, ["-10-10^2"] = -110,
+            ["---4+5--6-2"] = 5, ["-sin 90"] = -1, ["sin -90"] = -1, ["sin --90"] = 1
+         };
+         foreach (var item in testCases)
+            Assert.AreEqual (mEvaluator.Evaluate (item.Key), item.Value);
       }
       Evaluator mEvaluator = new ();
    }
