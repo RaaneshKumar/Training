@@ -21,16 +21,16 @@ namespace Training {
          FileParser fileParser = new ();
          for (; ; ) {
             Console.Write (">");
-            string input = Console.ReadLine ().Trim () + "~";
+            string input = Console.ReadLine ().Trim ();
             if (input == "") break;
-            var pathInfo = fileParser.GetFilePathData (input);
-            if (fileParser.IsValidPath (input)) {
+            (bool isValid, string drive, string folder, string file) = fileParser.GetFilePathData (input);
+            if (isValid) {
                Console.ForegroundColor = ConsoleColor.Green;
                Console.WriteLine ($"Valid File Path");
                Console.ResetColor ();
-               Console.WriteLine ($"Drive : {pathInfo.drive}\n" +
-                                  $"Folder: {pathInfo.folder}\n" +
-                                  $"File  : {pathInfo.file}");
+               Console.WriteLine ($"Drive : {drive}\n" +
+                                  $"Folder: {folder}\n" +
+                                  $"File  : {file}");
             } else {
                Console.ForegroundColor = ConsoleColor.Red;
                Console.WriteLine ("Invalid File Path!");
@@ -53,8 +53,9 @@ namespace Training {
       /// <returns>Returns whether the path is valid and the drive, folder and file names
       /// in the form of a tuple</returns>
       public (bool isValid, string drive, string folder, string file) GetFilePathData (string path) {
-         path = path.Replace ('\\', '/');
-         int slashFIdx = path.IndexOf ('/'), slashLIdx = path.LastIndexOf ('/');
+
+         path = (path + "~").Replace ('\\', '/');
+         int slashFirstIdx = path.IndexOf ('/'), slashLastIdx = path.LastIndexOf ('/');
          (bool isValid, string drive, string folder, string file) info = (false, "", "", "");
          EState state = A;
          Action none = () => { }, toDo;
@@ -66,14 +67,14 @@ namespace Training {
                (C, '/') => (D, none),
                (D or E, >= 'A' and <= 'Z') => (E, none),
                (E, '/')
-                 => (F, () => info.folder = path.Substring (slashFIdx + 1, slashLIdx - slashFIdx - 1)),
+                 => (F, () => info.folder = path.Substring (slashFirstIdx + 1, slashLastIdx - slashFirstIdx - 1)),
                (F or G, >= 'A' and <= 'Z') => (G, none),
                (G, '/') => (F, none),
                (G, '.') => (H, none),
                (H or I, >= 'A' and <= 'Z') => (I, none),
                (I, '~')
                  => (END, () => {
-                    info.file = path.Substring (slashLIdx + 1, path.Length - slashLIdx - 2);
+                    info.file = path.Substring (slashLastIdx + 1, path.Length - slashLastIdx - 2);
                     info.isValid = true;
                  }
                ),
