@@ -53,7 +53,6 @@ namespace Training {
       /// <returns>Returns whether the path is valid and the drive, folder and file names
       /// in the form of a tuple</returns>
       public (bool isValid, string drive, string folder, string file) GetFilePathData (string path) {
-
          path = (path + "~").Replace ('\\', '/');
          int slashFirstIdx = path.IndexOf ('/'), slashLastIdx = path.LastIndexOf ('/');
          (bool isValid, string drive, string folder, string file) info = (false, "", "", "");
