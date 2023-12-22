@@ -21,7 +21,8 @@
             switch (ch) {
                case ' ': break;
                case '+' or '-':
-                  if (mN - 1 is 0 || mEval.GetPreviousToken () is TOperator or TPunctutation)
+                  if (mN - 1 is 0 || mEval.GetPreviousToken () is TOperator
+                                  || (mEval.GetPreviousToken () is TPunctutation p && p.Punct == '('))
                      return new TOpUnary (ch);
                   else return new TOpBinary (ch);
                case '*' or '/' or '^' or '=': return new TOpBinary (ch);
