@@ -19,11 +19,10 @@ namespace Training {
 
          var anagrams = file.GroupBy (x => String.Join ("", x.Order ())) // Groups by anagrams
                             .Where (x => x.Count () > 1) // Removes all words having no anagrams
-                            //.Select (x => x.Order ())
-                            .OrderByDescending (x => x.Count());
+                            .OrderByDescending (x => x.Count ()); // Sorts based on the count of anagrams
 
-         foreach (var item in anagrams)
-            Console.WriteLine (item.Count() + " " + String.Join (" ", item));
+         foreach (var item in anagrams) // Prints the anagrams with their count
+            Console.WriteLine (item.Count () + " " + String.Join (" ", item));
       }
       #endregion
    }
