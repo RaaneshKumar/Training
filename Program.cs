@@ -10,11 +10,9 @@ namespace Training {
    /// <summary>Anagrams</summary>
    internal class Program {
       #region Method ------------------------------------------------
-      static void Main () => Anagrams ();
-
       /// <summary>This method finds all anagrams and 
       /// sorts them based on the anagrams count from the words</summary>
-      static void Anagrams () {
+      static void Main () {
          var file = File.ReadLines ("C:/etc/words.txt");
 
          var anagrams = file.GroupBy (x => String.Join ("", x.Order ())) // Groups by anagrams
