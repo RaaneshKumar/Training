@@ -17,6 +17,7 @@
 // You can press left-arrow or backspace to ‘delete’ the last character you typed.
 // ---------------------------------------------------------------------------------------
 
+using System.Reflection;
 using System.Text;
 using static System.Console;
 using static Training.Program.EColor;
@@ -31,9 +32,11 @@ namespace Training {
          OutputEncoding = new UnicodeEncoding ();
          CursorVisible = false; WindowWidth = 70; WindowHeight = 35;
 
+         ReadFiles ("puzzle");
+         ReadFiles ("dict");
          for (char letter = 'A'; letter <= 'Z'; letter++) mKeyboard[letter] = White;
          Random random = new ();
-         mWordleWord = sWords[random.Next (sWords.Length - 1)];
+         mWordleWord = sWords[random.Next (sWords.Count - 1)];
 
          DisplayInitialPos ();
          DisplayCircle ();
@@ -60,8 +63,8 @@ namespace Training {
             [20] = 0, [25] = 1, [30] = 2, [35] = 3, [40] = 4  // CursorLeft positions as keys and indices as values
          };
 
-         if (key.KeyChar is >= 'A' and <= 'Z')
-            mLetters[letterPositions[CursorLeft - 1]] = key.KeyChar;
+         if (Char.ToUpper (key.KeyChar) is >= 'A' and <= 'Z')
+            mLetters[letterPositions[CursorLeft - 1]] = Char.ToUpper (key.KeyChar);
 
          if (mKeyColumn >= sColumnMaxLimit) SetCursorPosition (sColumnMaxLimit, mKeyRow);
 
@@ -98,7 +101,7 @@ namespace Training {
                break;
          }
 
-         if (letterPositions.ContainsKey (CursorLeft - 1)) { 
+         if (letterPositions.ContainsKey (CursorLeft - 1)) {
             Write (sSpaces); // Prints spaces after valid key pressed at valid position
             DisplayCircle ();
          }
@@ -180,6 +183,15 @@ namespace Training {
             _ => ConsoleColor.Black,
          };
       }
+
+      /// <summary>This method reads the given file and stores the lines in the corresponding list</summary>
+      /// <param name="file">File name</param>
+      static void ReadFiles (string file) {
+         var stream = Assembly.GetExecutingAssembly ().GetManifestResourceStream ($"Training.data.{file}.txt");
+         using var reader = new StreamReader (stream);
+         while (!reader.EndOfStream)
+            (file == "puzzle" ? sWords : sValidWords).Add (reader.ReadLine ());
+      }
       #endregion
 
       #region Enum --------------------------------------------------
@@ -195,10 +207,10 @@ namespace Training {
 
       #region Private -----------------------------------------------
       static char sDot = '\u00b7', sCircle = '\u25cc';
-      static string sSpaces = "    "; // 4 spaces
-      static string[] sWords = File.ReadAllLines ("C:\\WorkGIT\\Training\\puzzle.txt"); // Wordle words
-      static string[] sValidWords = File.ReadAllLines ("C:\\WorkGIT\\Training\\dict.txt"); // Valid English Words
-      static int sRow = 3, sColumn = 20; // For displaying the initial position of the game.
+      static string sSpaces = "    ";     // 4 spaces
+      static List<string> sWords = new ();         // Wordle words
+      static List<string> sValidWords = new ();    // Valid English Words
+      static int sRow = 3, sColumn = 20;  // For displaying the initial position of the game.
       static int sKeyBoardRow = 23, sKeyBoardColumn = 10; // Co-ordinates of the initial position of the keyboard.
       static int sRowGap = 3, sColumnMaxLimit = 40; // Lines between rows, max column limit of game area respectively.
       #endregion

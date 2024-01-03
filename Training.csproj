@@ -17,6 +17,13 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="data\dict.txt" />
+    <None Remove="data\puzzle.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="data\dict.txt" />
+    <EmbeddedResource Include="data\puzzle.txt" />
   </ItemGroup>
 
 </Project>
