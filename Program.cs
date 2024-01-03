@@ -32,8 +32,8 @@ namespace Training {
          OutputEncoding = new UnicodeEncoding ();
          CursorVisible = false; WindowWidth = 70; WindowHeight = 35;
 
-         ReadFiles ("puzzle");
-         ReadFiles ("dict");
+         ReadFile ("puzzle");
+         ReadFile ("dict");
          for (char letter = 'A'; letter <= 'Z'; letter++) mKeyboard[letter] = White;
          Random random = new ();
          mWordleWord = sWords[random.Next (sWords.Count - 1)];
@@ -186,7 +186,7 @@ namespace Training {
 
       /// <summary>This method reads the given file and stores the lines in the corresponding list</summary>
       /// <param name="file">File name</param>
-      static void ReadFiles (string file) {
+      static void ReadFile (string file) {
          var stream = Assembly.GetExecutingAssembly ().GetManifestResourceStream ($"Training.data.{file}.txt");
          using var reader = new StreamReader (stream);
          while (!reader.EndOfStream)
