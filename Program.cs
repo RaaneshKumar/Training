@@ -30,7 +30,7 @@ namespace Training {
       /// <summary>Launches the game and keeps getting user input</summary>
       static void Main () {
          OutputEncoding = new UnicodeEncoding ();
-         CursorVisible = false; WindowWidth = 60; WindowHeight = 35;
+         CursorVisible = false; WindowWidth /= 2; WindowHeight += WindowHeight / 6;
 
          ReadFile ("puzzle");
          ReadFile ("dict");
@@ -42,7 +42,7 @@ namespace Training {
          DisplayCircle ();
          for (; ; ) {
             (mKeyColumn, mKeyRow) = GetCursorPosition (); // Gets the position of the key to be pressed.
-            ConsoleKeyInfo key = ReadKey ();
+            ConsoleKeyInfo key = ReadKey (true);
             if (key.Key == ConsoleKey.Escape) { PrintMessage (Black, null); break; }
             UpdateGameState (key);
             if (mUserWord == mWordleWord && CursorLeft == sColumn) {
@@ -62,9 +62,11 @@ namespace Training {
          Dictionary<int, int> letterPositions = new () {
             [20] = 0, [25] = 1, [30] = 2, [35] = 3, [40] = 4  // CursorLeft positions as keys and indices as values
          };
+         char entry = Char.ToUpper (key.KeyChar);
+         PrintEntry (White, entry);
 
-         if (Char.ToUpper (key.KeyChar) is >= 'A' and <= 'Z') {
-            mLetters[letterPositions[CursorLeft - 1]] = Char.ToUpper (key.KeyChar);
+         if (entry is >= 'A' and <= 'Z') {
+            mLetters[letterPositions[CursorLeft - 1]] = entry;
             if (mLetterCount < 5) mLetterCount++;
          }
 
@@ -83,6 +85,7 @@ namespace Training {
                break;
 
             case ConsoleKey.Enter:
+               if (mLetterCount != 5) { SetCursorPosition (mKeyColumn, mKeyRow); return; }
                if (sValidWords.Any (x => x == mUserWord)) { // Checks if the user given word is a validword.
                   SetCursorPosition (sColumn, mKeyRow);
                   for (int i = 0; i < 5; i++) {
