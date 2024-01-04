@@ -4,7 +4,7 @@
 // ---------------------------------------------------------------------------------------
 // Program.cs                                                                     
 // There is a secret 5-letter word you have to guess. 
-// Use upperase letters.
+// Use uppercase letters.
 // You type in your guess, and different letters in your guess are colored red, green or yellow:
 // Red: The given letter is not in the secret word
 // Yellow: The letter is found in the word, but not in this position
@@ -30,7 +30,7 @@ namespace Training {
       /// <summary>Launches the game and keeps getting user input</summary>
       static void Main () {
          OutputEncoding = new UnicodeEncoding ();
-         CursorVisible = false; WindowWidth = 70; WindowHeight = 35;
+         CursorVisible = false; WindowWidth = 60; WindowHeight = 35;
 
          ReadFile ("puzzle");
          ReadFile ("dict");
@@ -46,10 +46,10 @@ namespace Training {
             if (key.Key == ConsoleKey.Escape) { PrintMessage (Black, null); break; }
             UpdateGameState (key);
             if (mUserWord == mWordleWord && CursorLeft == sColumn) {
-               PrintMessage (Green, $"You won. You guessed it in {mKeyRow / sRowGap - 1} tries"); // When the word is found.
+               PrintMessage (Green, $"You found the word in {mKeyRow / sRowGap - 1} tries"); // When the word is found.
                break;
             } else if (mKeyRow / sRowGap > 6) { // When the word is not found in 6 tries.
-               PrintMessage (Red, $"You lost. The correct word is {mWordleWord}");
+               PrintMessage (Yellow, $"Sorry - the word was {mWordleWord}");
                break;
             }
          }
@@ -63,8 +63,10 @@ namespace Training {
             [20] = 0, [25] = 1, [30] = 2, [35] = 3, [40] = 4  // CursorLeft positions as keys and indices as values
          };
 
-         if (Char.ToUpper (key.KeyChar) is >= 'A' and <= 'Z')
+         if (Char.ToUpper (key.KeyChar) is >= 'A' and <= 'Z') {
             mLetters[letterPositions[CursorLeft - 1]] = Char.ToUpper (key.KeyChar);
+            if (mLetterCount < 5) mLetterCount++;
+         }
 
          if (mKeyColumn >= sColumnMaxLimit) SetCursorPosition (sColumnMaxLimit, mKeyRow);
 
@@ -77,6 +79,7 @@ namespace Training {
                   Write (sCircle);
                   CursorLeft -= 1;
                } else SetCursorPosition (sColumn, mKeyRow); // Not allowing backspaces before the wordle area.
+               if (mLetterCount > 0) mLetters[--mLetterCount] = default;
                break;
 
             case ConsoleKey.Enter:
@@ -86,8 +89,8 @@ namespace Training {
                      if (mLetters[i] == mWordleWord[i]) PrintEntry (Green, mLetters[i]); // Correct position.
                      else {
                         if (mWordleWord.Contains (mLetters[i]))
-                           PrintEntry (Yellow, mLetters[i]); // Wrong position.
-                        else PrintEntry (Red, mLetters[i]);  // Letter is not present.
+                           PrintEntry (Blue, mLetters[i]); // Wrong position.
+                        else PrintEntry (DarkGray, mLetters[i]);  // Letter is not present.
                      }
                      Write (sSpaces);
                   }
@@ -97,6 +100,7 @@ namespace Training {
                   SetCursorPosition (sColumn, mKeyRow += sRowGap); // Sets cursor to the next row.
                   if (mKeyRow / sRowGap <= 6) DisplayCircle (); // Checks if tries exceeded 6 times.
                   Array.Clear (mLetters); // Clears the array for next user word.
+                  mLetterCount = 0;
                } else PrintInvalid (Yellow);
                break;
          }
@@ -111,7 +115,7 @@ namespace Training {
 
          // Prints invalid message in corresponding color.
          void PrintInvalid (EColor color) {
-            PrintMessage (color, $"Invalid word");
+            PrintMessage (color, $"   {mUserWord} is not a word   ");
             SetCursorPosition (mKeyColumn, mKeyRow);
          }
       }
@@ -144,9 +148,9 @@ namespace Training {
             if (letter == mWordleWord[i])
                mKeyboard[letter] = Green;
             else if (mWordleWord.Contains (letter) && mKeyboard[letter] != Green)
-               mKeyboard[letter] = Yellow;
+               mKeyboard[letter] = Blue;
             else if (mLetters.Contains (letter) && !mWordleWord.Contains (letter))
-               mKeyboard[letter] = Red;
+               mKeyboard[letter] = DarkGray;
          }
 
          for (char letter = 'A'; letter <= 'Z'; letter++) { // Having 9 alphabets in a row.
@@ -167,7 +171,7 @@ namespace Training {
       static void PrintMessage (EColor color, string message) {
          SetCursorPosition (sKeyBoardColumn, sRow * 10);
          ChangeConsoleColor (color);
-         Write (color == Yellow ? $"{message,25}" : $"{message,40}");
+         Write (color == Yellow ? $"{message,33}" : $"{message,35}");
          ResetColor ();
       }
 
@@ -177,9 +181,9 @@ namespace Training {
          ForegroundColor = color switch {
             Green => ConsoleColor.Green,
             DarkGray => ConsoleColor.DarkGray,
-            Red => ConsoleColor.Red,
             Yellow => ConsoleColor.Yellow,
             White => ConsoleColor.White,
+            Blue => ConsoleColor.Blue,
             _ => ConsoleColor.Black,
          };
       }
@@ -195,12 +199,12 @@ namespace Training {
       #endregion
 
       #region Enum --------------------------------------------------
-      public enum EColor { DarkGray, Red, Green, Yellow, White, Black }
+      public enum EColor { DarkGray, Green, Yellow, White, Black, Blue }
       #endregion
 
       #region Members -----------------------------------------------
       static char[] mLetters = new char[5]; // Entry characters
-      static int mKeyColumn, mKeyRow; // Position at which a key is pressed.
+      static int mKeyColumn, mKeyRow, mLetterCount = 0; // Position at which a key is pressed.
       static string mWordleWord, mUserWord; // Random word to be picked by computer, user typed word respectively.
       static Dictionary<char, EColor> mKeyboard = new (); // Keyboard letters and their corresponding colors
       #endregion
