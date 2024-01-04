@@ -20,6 +20,7 @@
 using System.Reflection;
 using System.Text;
 using static System.Console;
+using static System.ConsoleKey;
 using static Training.Program.EColor;
 
 namespace Training {
@@ -30,7 +31,7 @@ namespace Training {
       /// <summary>Launches the game and keeps getting user input</summary>
       static void Main () {
          OutputEncoding = new UnicodeEncoding ();
-         CursorVisible = false; WindowWidth /= 2; WindowHeight += WindowHeight / 6;
+         CursorVisible = false;
 
          ReadFile ("puzzle");
          ReadFile ("dict");
@@ -43,14 +44,16 @@ namespace Training {
          for (; ; ) {
             (mKeyColumn, mKeyRow) = GetCursorPosition (); // Gets the position of the key to be pressed.
             ConsoleKeyInfo key = ReadKey (true);
-            if (key.Key == ConsoleKey.Escape) { PrintMessage (Black, null); break; }
-            UpdateGameState (key);
-            if (mUserWord == mWordleWord && CursorLeft == sColumn) {
-               PrintMessage (Green, $"You found the word in {mKeyRow / sRowGap - 1} tries"); // When the word is found.
-               break;
-            } else if (mKeyRow / sRowGap > 6) { // When the word is not found in 6 tries.
-               PrintMessage (Yellow, $"Sorry - the word was {mWordleWord}");
-               break;
+            if (key.Key == Escape) { PrintMessage (Black, null); break; }
+            if (Char.IsLetter (key.KeyChar) || key.Key is Escape or Backspace or Enter or LeftArrow) {
+               UpdateGameState (key);
+               if (mUserWord == mWordleWord && CursorLeft == sColumn) {
+                  PrintMessage (Green, $"You found the word in {mKeyRow / sRowGap - 1} tries"); // When the word is found.
+                  break;
+               } else if (mKeyRow / sRowGap > 6) { // When the word is not found in 6 tries.
+                  PrintMessage (Yellow, $"Sorry - the word was {mWordleWord}");
+                  break;
+               }
             }
          }
       }
@@ -59,32 +62,36 @@ namespace Training {
       /// <param name="key">The key pressed by the user</param>
       static void UpdateGameState (ConsoleKeyInfo key) {
          mUserWord = string.Join ("", mLetters);
-         Dictionary<int, int> letterPositions = new () {
-            [20] = 0, [25] = 1, [30] = 2, [35] = 3, [40] = 4  // CursorLeft positions as keys and indices as values
+         Dictionary<int, int> letterPositions = new () { // CursorLeft positions as keys and indices as values
+            [sColumn] = 0, [sColumn + 5] = 1, [sColumn + 10] = 2, [sColumn + 15] = 3, [sColumn + 20] = 4
          };
          char entry = Char.ToUpper (key.KeyChar);
-         PrintEntry (White, entry);
 
          if (entry is >= 'A' and <= 'Z') {
-            mLetters[letterPositions[CursorLeft - 1]] = entry;
+            mLetters[letterPositions[mKeyColumn]] = entry;
+            PrintEntry (White, entry);
             if (mLetterCount < 5) mLetterCount++;
          }
 
          if (mKeyColumn >= sColumnMaxLimit) SetCursorPosition (sColumnMaxLimit, mKeyRow);
 
          switch (key.Key) {
-            case ConsoleKey.Backspace or ConsoleKey.LeftArrow:
+            case Backspace or LeftArrow:
                if (mKeyColumn > sColumn) {
-                  SetCursorPosition (mKeyColumn, mKeyRow); // Seting the current position to dot.
-                  Write (sDot);
-                  SetCursorPosition (mKeyColumn -= 5, mKeyRow); // Moving back to previous position.
-                  Write (sCircle);
-                  CursorLeft -= 1;
+                  if (mLetterCount == 5) {
+                     SetCursorPosition (mKeyColumn, mKeyRow);
+                     DisplayCircle ();
+                  } else {
+                     SetCursorPosition (mKeyColumn, mKeyRow); // Seting the current position to dot.
+                     Write (sDot);
+                     SetCursorPosition (mKeyColumn -= 5, mKeyRow); // Moving back to previous position.
+                     DisplayCircle ();
+                  }
                } else SetCursorPosition (sColumn, mKeyRow); // Not allowing backspaces before the wordle area.
                if (mLetterCount > 0) mLetters[--mLetterCount] = default;
                break;
 
-            case ConsoleKey.Enter:
+            case Enter:
                if (mLetterCount != 5) { SetCursorPosition (mKeyColumn, mKeyRow); return; }
                if (sValidWords.Any (x => x == mUserWord)) { // Checks if the user given word is a validword.
                   SetCursorPosition (sColumn, mKeyRow);
@@ -136,7 +143,7 @@ namespace Training {
          }
          ChangeConsoleColor (DarkGray);
          SetCursorPosition (sKeyBoardColumn, mCurrentRow); // To print the dividing line.
-         WriteLine (new string ('~', sColumnMaxLimit));
+         WriteLine (new string ('~', 40));
          ResetColor ();
          DisplayKeyboard ();
          SetCursorPosition (sColumn, sRow); // Setting back to initial position.
@@ -217,9 +224,9 @@ namespace Training {
       static string sSpaces = "    ";     // 4 spaces
       static List<string> sWords = new ();         // Wordle words
       static List<string> sValidWords = new ();    // Valid English Words
-      static int sRow = 3, sColumn = 20;  // For displaying the initial position of the game.
-      static int sKeyBoardRow = 23, sKeyBoardColumn = 10; // Co-ordinates of the initial position of the keyboard.
-      static int sRowGap = 3, sColumnMaxLimit = 40; // Lines between rows, max column limit of game area respectively.
+      static int sRow = 3, sColumn = WindowWidth / 2 - 10;  // For displaying the initial position of the game.
+      static int sKeyBoardRow = 23, sKeyBoardColumn = WindowWidth / 2 - 20; // Co-ordinates of the initial position of the keyboard.
+      static int sRowGap = 3, sColumnMaxLimit = WindowWidth / 2 + 10; // Lines between rows, max column limit of game area respectively.
       #endregion
    }
    #endregion
