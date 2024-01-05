@@ -31,33 +31,27 @@ namespace Training {
       /// <param name="item">Element to be added</param>
       public void EnqueueRear (T item) {
          if (Count == Capacity) Resize ();
-         if (IsEmpty) AddFirstElement (item);
-         else { // Setting tail pointer to free space in the start if it is at the last index.
-            mRear = (mRear == Capacity - 1) ? mRear % (Capacity - 1) : mRear + 1;
-            mDeque[mRear] = item;
-            mCount++;
-         }
+         mDeque[mRear] = item;
+         mCount++;
+         mRear = (mRear + 1) % Capacity; // Sets the rear pointer to the next position after enqueue.
       }
 
       /// <summary>Adds the element at the front end of the TDeque</summary>
       /// <param name="item">Element to be added</param>
       public void EnqueueFront (T item) {
          if (Count == Capacity) Resize ();
-         if (IsEmpty) AddFirstElement (item);
-         else { // Setting head pointer to free space in the last if it is at the first index.
-            mFront = (mFront == 0) ? Capacity - 1 : mFront - 1;
-            mDeque[mFront] = item;
-            mCount++;
-         }
+         mFront = (mFront + Capacity - 1) % Capacity; // Sets the front pointer to the previous position to enqueue.
+         mDeque[mFront] = item;
+         mCount++;
       }
 
       /// <summary>Removes an element from the rear end of the TDeque</summary>
       public T DequeueRear () {
          T dequeItem;
          if (IsEmpty) throw new InvalidOperationException ();
+         mRear = (mRear + Capacity - 1) % Capacity; // Sets the rear pointer to the previous position to dequeue.
          (dequeItem, mDeque[mRear]) = (mDeque[mRear], default);
-         mCount--; // Setting back tail pointer after dequeue according to previous positions. 
-         mRear = (mRear == 0) ? Capacity - 1 : mRear - 1;
+         mCount--;
          return dequeItem;
       }
 
@@ -66,32 +60,25 @@ namespace Training {
          T dequeItem;
          if (IsEmpty) throw new InvalidOperationException ();
          (dequeItem, mDeque[mFront]) = (mDeque[mFront], default);
-         mCount--; // Setting back head pointer after dequeue according to previous positions. 
-         mFront = (mFront == Capacity - 1) ? 0 : mFront + 1;
+         mCount--;
+         mFront = (mFront + 1) % Capacity; // Sets the front pointer to the next position after dequeue.
          return dequeItem;
       }
 
       /// <summary>Resizes the array by increasing the capacity by 2 times 
       /// when the array is full</summary>
       void Resize () {
-         if (mRear < mFront) // Rearranging the elements in linear way
-            mDeque = mDeque.TakeLast (Capacity - mFront).Concat (mDeque.Take (mRear + 1)).ToArray ();
-         Array.Resize (ref mDeque, Capacity * 2);
-         mFront = 0; mRear = Capacity / 2 - 1; // Setting back head and tail pointers in linear way.
-      }
-
-      /// <summary>Adds the first element in the TDeque</summary>
-      /// <param name="item"></param>
-      void AddFirstElement (T item) {
-         mDeque[0] = item;
-         mCount++;
-         mFront = mRear = 0;
+         T[] resizeArray = new T[mCount * 2];
+         for (int i = 0; i < mCount; i++) // Copies elements in order from mFront to mRear.
+            resizeArray[i] = mDeque[(mFront + i) % mCount];
+         mDeque = resizeArray;
+         (mFront, mRear) = (0, mCount); // Setting back pointers.
       }
       #endregion
 
       #region Members -----------------------------------------------
       T[] mDeque = new T[4];
-      int mCount = 0, mFront = -1, mRear = -1;
+      int mCount = 0, mFront = 0, mRear = 0;
       #endregion
    }
    #endregion
