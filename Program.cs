@@ -66,12 +66,16 @@ namespace Training {
          char entry = Char.ToUpper (key.KeyChar);
          if (entry is >= 'A' and <= 'Z') {
             if (mLetterCount == 5) return; // Prevents changing the fifth letter without pressing backspace.
-            mLetters[sLetterPositions[mKeyColumn]] = entry;
+            mLetters[mLetterCount] = entry;
             PrintEntry (White, entry);
             mLetterCount++;
+            if (mLetterCount < 5) {
+               Write (sSpaces); // Prints spaces after valid key pressed at valid position
+               DisplayCircle ();
+            }
+            int columnMaxLimit = sColumn + 20;
+            if (mKeyColumn >= columnMaxLimit) SetCursorPosition (columnMaxLimit, mKeyRow);
          }
-
-         if (mKeyColumn >= sColumnMaxLimit) SetCursorPosition (sColumnMaxLimit, mKeyRow);
 
          switch (key.Key) {
             case Backspace or LeftArrow:
@@ -112,13 +116,8 @@ namespace Training {
                break;
          }
 
-         if (sLetterPositions.ContainsKey (CursorLeft - 1)) {
-            Write (sSpaces); // Prints spaces after valid key pressed at valid position
-            DisplayCircle ();
-         }
-
          // Prints the letters of the user word in corresponding colors.
-         void PrintEntry (EColor color, char entry) { ChangeConsoleColor (color); Write (entry); }
+         void PrintEntry (EColor color, char entry) { SetConsoleColor (color); Write (entry); }
 
          // Prints invalid message in corresponding color.
          void PrintInvalid (EColor color) {
@@ -138,8 +137,8 @@ namespace Training {
             WriteLine (String.Concat (Enumerable.Repeat (sDot + sSpaces, 5)));
             SetCursorPosition (mCurrentColumn, mCurrentRow += sRowGap); // Having three row gaps between lines.
          }
-         ChangeConsoleColor (DarkGray);
-         SetCursorPosition (sKeyBoardColumn, mCurrentRow); // To print the dividing line.
+         SetConsoleColor (DarkGray);
+         SetCursorPosition (sColumn - 10, mCurrentRow); // To print the dividing line.
          WriteLine (new string ('~', 40));
          ResetColor ();
          DisplayKeyboard ();
@@ -148,24 +147,26 @@ namespace Training {
 
       /// <summary>Displays the keyboard with letters in corresponding colors</summary>
       static void DisplayKeyboard () {
-         (int mCurrentColumn, int mCurrentRow) = (sKeyBoardColumn, sKeyBoardRow);
+         int keyboardColumn = sColumn - 10;
+         (int mCurrentColumn, int mCurrentRow) = (keyboardColumn, sRow + 20);
          SetCursorPosition (mCurrentColumn, mCurrentRow);
          for (int i = 0; i < 5; i++) { // Setting the corresponding colors for letters.
             char letter = mLetters[i];
+            bool isCorrectLetter = mWordleWord.Contains (letter);
             if (letter == mWordleWord[i])
                mKeyboard[letter] = Green;
-            else if (mWordleWord.Contains (letter) && mKeyboard[letter] != Green)
+            else if (isCorrectLetter && mKeyboard[letter] != Green)
                mKeyboard[letter] = Blue;
-            else if (mLetters.Contains (letter) && !mWordleWord.Contains (letter))
+            else if (mLetters.Contains (letter) && !isCorrectLetter)
                mKeyboard[letter] = DarkGray;
          }
 
          for (char letter = 'A'; letter <= 'Z'; letter++) { // Having 9 alphabets in a row.
             if (letter is 'J' or 'S') {
                WriteLine ();
-               SetCursorPosition (sKeyBoardColumn, mCurrentRow += 2); // Having keyboard row gap as 2 lines.
+               SetCursorPosition (keyboardColumn, mCurrentRow += 2); // Having keyboard row gap as 2 lines.
             }
-            ChangeConsoleColor (mKeyboard[letter]);
+            SetConsoleColor (mKeyboard[letter]);
             Write (letter + sSpaces);
          }
          ResetColor ();
@@ -176,15 +177,15 @@ namespace Training {
       /// <param name="color">Color of the message</param>
       /// <param name="message">The message to be printed</param>
       static void PrintMessage (EColor color, string message) {
-         SetCursorPosition (sKeyBoardColumn, sRow * 10);
-         ChangeConsoleColor (color);
+         SetCursorPosition (sColumn - 10, sRow * 10);
+         SetConsoleColor (color);
          Write (color == Yellow ? $"{message,33}" : $"{message,35}");
          ResetColor ();
       }
 
       /// <summary>Changes the ForegroundColor as required</summary>
       /// <param name="color">Color to which the ForegroundColor must be changed</param>
-      static void ChangeConsoleColor (EColor color) {
+      static void SetConsoleColor (EColor color) {
          ForegroundColor = color switch {
             Green => ConsoleColor.Green,
             DarkGray => ConsoleColor.DarkGray,
@@ -209,24 +210,17 @@ namespace Training {
       public enum EColor { DarkGray, Green, Yellow, White, Black, Blue }
       #endregion
 
-      #region Members -----------------------------------------------
+      #region Private -----------------------------------------------
       static char[] mLetters = new char[5]; // Entry characters
       static int mKeyColumn, mKeyRow, mLetterCount = 0; // Position at which a key is pressed.
       static string mWordleWord, mUserWord; // Random word to be picked by computer, user typed word respectively.
       static Dictionary<char, EColor> mKeyboard = new (); // Keyboard letters and their corresponding colors
-      #endregion
 
-      #region Private -----------------------------------------------
       static char sDot = '\u00b7', sCircle = '\u25cc';
       static string sSpaces = "    "; // 4 spaces
-      static List<string> sWords = new (); // Wordle words
-      static List<string> sValidWords = new (); // Valid English Words
-      static int sRow = 3, sColumn = WindowWidth / 2 - 10;  // For displaying the initial position of the game.
-      static int sKeyBoardRow = 23, sKeyBoardColumn = WindowWidth / 2 - 20; // Co-ordinates of the initial position of the keyboard.
-      static int sRowGap = 3, sColumnMaxLimit = WindowWidth / 2 + 10; // Lines between rows, max column limit of game area respectively.
-      static Dictionary<int, int> sLetterPositions = new () { // CursorLeft positions as keys and indices as values
-         [sColumn] = 0, [sColumn + 5] = 1, [sColumn + 10] = 2, [sColumn + 15] = 3, [sColumn + 20] = 4
-      };
+      static List<string> sWords = new (), sValidWords = new (); // Wordle words and Valid English words.
+      static int sRow = 3, sColumn = WindowWidth / 2 - 10, // For displaying the initial position of the game.
+                 sRowGap = 3; // Lines between rows, max column limit of game area respectively.
       #endregion
    }
    #endregion
