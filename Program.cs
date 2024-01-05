@@ -32,6 +32,7 @@ namespace Training {
       static void Main () {
          OutputEncoding = new UnicodeEncoding ();
          CursorVisible = false;
+         WindowHeight = LargestWindowHeight;
 
          ReadFile ("puzzle");
          ReadFile ("dict");
@@ -62,15 +63,12 @@ namespace Training {
       /// <param name="key">The key pressed by the user</param>
       static void UpdateGameState (ConsoleKeyInfo key) {
          mUserWord = string.Join ("", mLetters);
-         Dictionary<int, int> letterPositions = new () { // CursorLeft positions as keys and indices as values
-            [sColumn] = 0, [sColumn + 5] = 1, [sColumn + 10] = 2, [sColumn + 15] = 3, [sColumn + 20] = 4
-         };
          char entry = Char.ToUpper (key.KeyChar);
-
          if (entry is >= 'A' and <= 'Z') {
-            mLetters[letterPositions[mKeyColumn]] = entry;
+            if (mLetterCount == 5) return; // Prevents changing the fifth letter without pressing backspace.
+            mLetters[sLetterPositions[mKeyColumn]] = entry;
             PrintEntry (White, entry);
-            if (mLetterCount < 5) mLetterCount++;
+            mLetterCount++;
          }
 
          if (mKeyColumn >= sColumnMaxLimit) SetCursorPosition (sColumnMaxLimit, mKeyRow);
@@ -90,7 +88,6 @@ namespace Training {
                } else SetCursorPosition (sColumn, mKeyRow); // Not allowing backspaces before the wordle area.
                if (mLetterCount > 0) mLetters[--mLetterCount] = default;
                break;
-
             case Enter:
                if (mLetterCount != 5) { SetCursorPosition (mKeyColumn, mKeyRow); return; }
                if (sValidWords.Any (x => x == mUserWord)) { // Checks if the user given word is a validword.
@@ -115,7 +112,7 @@ namespace Training {
                break;
          }
 
-         if (letterPositions.ContainsKey (CursorLeft - 1)) {
+         if (sLetterPositions.ContainsKey (CursorLeft - 1)) {
             Write (sSpaces); // Prints spaces after valid key pressed at valid position
             DisplayCircle ();
          }
@@ -221,12 +218,15 @@ namespace Training {
 
       #region Private -----------------------------------------------
       static char sDot = '\u00b7', sCircle = '\u25cc';
-      static string sSpaces = "    ";     // 4 spaces
-      static List<string> sWords = new ();         // Wordle words
-      static List<string> sValidWords = new ();    // Valid English Words
+      static string sSpaces = "    "; // 4 spaces
+      static List<string> sWords = new (); // Wordle words
+      static List<string> sValidWords = new (); // Valid English Words
       static int sRow = 3, sColumn = WindowWidth / 2 - 10;  // For displaying the initial position of the game.
       static int sKeyBoardRow = 23, sKeyBoardColumn = WindowWidth / 2 - 20; // Co-ordinates of the initial position of the keyboard.
       static int sRowGap = 3, sColumnMaxLimit = WindowWidth / 2 + 10; // Lines between rows, max column limit of game area respectively.
+      static Dictionary<int, int> sLetterPositions = new () { // CursorLeft positions as keys and indices as values
+         [sColumn] = 0, [sColumn + 5] = 1, [sColumn + 10] = 2, [sColumn + 15] = 3, [sColumn + 20] = 4
+      };
       #endregion
    }
    #endregion
