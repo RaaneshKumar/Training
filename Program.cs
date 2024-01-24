@@ -62,7 +62,7 @@ namespace Training {
 
       static void PrintGrid () {
          Console.OutputEncoding = new UnicodeEncoding ();
-         string dividerLine = "───┼───┼───"; //253C
+         string dividerLine = "───┼───┼───";
          for (int i = 1; i <= 5; i++) {
             switch (i) {
                case 2 or 4: Console.WriteLine (dividerLine); break;
